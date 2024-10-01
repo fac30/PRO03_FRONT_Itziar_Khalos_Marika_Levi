@@ -26,6 +26,9 @@ jobs:
               echo "AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY"
               echo "AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION"
 
+      - name: Sync files to my S3 bucket
+        run:  aws s3 sync ./build s3://your-bucket-name
+
       
 
 
