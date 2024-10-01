@@ -22,11 +22,11 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./wisdom-wars  # Set working directory
+        working-directory: ./wisdom-war  # Set working directory
   
       - name: Build the project
         run: npm run build
-        working-directory: ./wisdom-wars  # Set working directory
+        working-directory: ./wisdom-war  # Set working directory
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
