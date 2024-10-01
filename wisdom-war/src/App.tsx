@@ -1,5 +1,12 @@
+import Navbar from "./components/NavBar";
+
 function App() {
-  return <>Welcome to Wisdom War!</>;
+  return (
+    <>
+      <h1>Welcome to Wisdom War!</h1>
+      <Navbar title="Explore Quizzes" />
+    </>
+  );
 }
 
 export default App;
