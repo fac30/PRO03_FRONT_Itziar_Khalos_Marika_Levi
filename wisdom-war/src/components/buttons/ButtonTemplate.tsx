@@ -1,14 +1,17 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface ButtonProps {
   text: string;                 // Button label
+  to?: string;                  // Path to navigate to (optional)
   onClick?: () => void;         // Click handler (optional)
   className?: string;           // CSS class for custom styles (optional)
   variant?: 'primary' | 'secondary' | 'third';  // Button style variants
-  iconRight?: React.ReactNode;  // Optional icon to be placed on the right
 }
 
-function ButtonTemplate({ text, onClick, className = '', variant = 'primary', iconRight }: ButtonProps) {
+function ButtonTemplate({ text, to, onClick, className = '', variant = 'primary' }: ButtonProps) {
+  const navigate = useNavigate(); // Initialize the useNavigate hook
+
   // Define base styles for each variant
   let baseClassName = '';
 
@@ -19,21 +22,29 @@ function ButtonTemplate({ text, onClick, className = '', variant = 'primary', ic
     case 'secondary':
       baseClassName = '';
       break;
-    case 'icon':
+    case 'third':
       baseClassName = '';
       break;
     default:
       baseClassName = '';
   }
 
+  const handleClick = () => {
+    if (to) {
+      navigate(to); // If the `to` prop is passed, navigate to the given path
+    } else if (onClick) {
+      onClick(); // Otherwise, trigger the onClick handler
+    }
+  };
+
   return (
-    <button className={`${baseClassName} ${className}`} onClick={onClick}>
+    <button className={`${baseClassName} ${className}`} onClick={handleClick}>
       {text}
-      {iconRight && <span className="ml-2">{iconRight}</span>}
     </button>
   );
 }
 
 export default ButtonTemplate;
+
 
 
