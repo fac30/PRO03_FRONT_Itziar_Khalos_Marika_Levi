@@ -2,16 +2,6 @@
 import React from 'react';
 import ButtonTemplate from './ButtonTemplate';
 
-// const Button2: React.FC = () => {
-//   return (
-//     <ButtonTemplate
-//       text="Next Question"
-//       className=""
-//       onClick={() => console.log('Next')}
-//     />
-//   );
-// };
-
 const Button2: React.FC = () => {
   return (
     <ButtonTemplate
