@@ -72,6 +72,13 @@ const handleAnswerChange = (questionId: number, answer: string) => {
   }));
 };
 
+// Function to filter and return answers for a specific question
+const getAnswersForQuestion = (questionId: number) => {
+  return answers.filter(answer => answer.questionId === questionId);
+};
+
+
+
 
   // JSX to render the quiz component
   return (
