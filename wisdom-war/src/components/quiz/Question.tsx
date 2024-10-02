@@ -16,37 +16,43 @@ interface QuizAnswer {
 }
 
 const QuestionComponent = () => {
-  // Hold the fetched questions
+  // State to hold the list of questions fetched from questions.json
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
 
-  // Define state to track the current question and selected answer
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  // State to hold the list of answers fetched from answers.json
+  const [answers, setAnswers] = useState<QuizAnswer[]>([]);
 
-  // Handle user's answer selection
-const handleAnswerChange = (answer: string) => {
-  setSelectedAnswer(answer);
-};
+  // State to hold the user's selected answers (mapped by questionId)
+  const [selectedAnswers, setSelectedAnswers] = useState<{ [key: number]: string }>({});
 
-  // State for loading and handling errors
+  // State to manage the loading status
   const [loading, setLoading] = useState(true);
+
+  // State to manage error messages in case of fetch failures
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch questions from the service
+  // Function to fetch questions and answers from the JSON files
   const fetchQuestions = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/questions`);
+      // Fetch the questions data
+      const questionsResponse = await fetch('http://localhost:3000/questions');
+      if (!questionsResponse.ok) throw new Error('Failed to fetch questions.');
+      const questionsData = await questionsResponse.json();
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch questions.');
-      }
+      // Fetch the answers data
+      const answersResponse = await fetch('http://localhost:3000/answers');
+      if (!answersResponse.ok) throw new Error('Failed to fetch answers.');
+      const answersData = await answersResponse.json();
 
-      const data = await response.json();
-      setQuestions(data);
+      // Set the questions and answers in their respective state variables
+      setQuestions(questionsData);
+      setAnswers(answersData);
+
+      // Stop the loading state once the data is fetched
       setLoading(false);
     } catch (error) {
-      console.log("Error fetching questions", error);
-      setError('Failed to fetch questions.');
+      // Set an error message if fetching data fails
+      setError('Failed to fetch questions or answers.');
       setLoading(false);
     }
   };
