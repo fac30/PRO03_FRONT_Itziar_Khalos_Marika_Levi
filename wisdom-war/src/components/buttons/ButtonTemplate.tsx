@@ -17,8 +17,10 @@ function ButtonTemplate({ text, to, onClick, className = '', variant = 'primary'
     padding: '10px 20px',
     fontSize: '16px',
     color: 'white',
+    backgroundColor: variant === 'primary' ? 'blue' : variant === 'secondary' ? 'gray' : 'green',
     borderRadius: '8px',
     cursor: 'pointer',
+    margin: '10px',
   };
 
   let variantStyles: React.CSSProperties = {};
