@@ -57,10 +57,21 @@ const QuestionComponent = () => {
     }
   };
 
-  // useEffect to fetch questions from the JSON file
-  useEffect(() => {
-    fetchQuestions();
-  }, []); // Empty dependency array ensures this only runs once
+  // Get the questions and answers when the component is shown on the screen for the first time.
+// This only happens once, right when the component appears.
+useEffect(() => {
+  fetchQuestions();
+}, []); // Empty dependency array means it only runs once on mount
+
+// Function to handle user's answer selection
+const handleAnswerChange = (questionId: number, answer: string) => {
+  // Update the selectedAnswers state with the new selected answer for the question
+  setSelectedAnswers(prevSelectedAnswers => ({
+    ...prevSelectedAnswers, // Retain previous selections
+    [questionId]: answer // Update the selected answer for the current question
+  }));
+};
+
 
   // JSX to render the quiz component
   return (
