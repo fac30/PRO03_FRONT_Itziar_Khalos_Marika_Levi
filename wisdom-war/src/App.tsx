@@ -45,8 +45,10 @@ function App() {
         <CategoryDropdown />
           {/* Render the DifficultyDropdown component */}
           <DifficultyDropdown />
+
+          {/* Insert the QuestionComponent below the dropdowns */}
+          <QuestionComponent />
           
-       
       </div>
       </div>
     </>

@@ -2,9 +2,12 @@ import { useState, useEffect } from "react";
 
 // Define the question object interface (renamed to avoid conflict)
 interface QuizQuestion {
-  questionText: string;
-  answers: string[];
-  className?: string;
+  id: number;
+  quizId: number;
+  text: string;
+  type: string;
+  points: number;
+  className?: string; // Optional className for custom styles
 }
 
 interface QuizAnswer {
