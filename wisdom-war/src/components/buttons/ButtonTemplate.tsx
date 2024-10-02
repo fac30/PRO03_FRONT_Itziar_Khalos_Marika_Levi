@@ -1,16 +1,11 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-
 interface ButtonProps {
   text: string;                 // Button label
-  to?: string;                  // Path to navigate to (optional)
   onClick?: () => void;         // Click handler (optional)
   className?: string;           // CSS class for custom styles (optional)
   variant?: 'primary' | 'secondary' | 'third';  // Button style variants
 }
 
-function ButtonTemplate({ text, to, onClick, className = '', variant = 'primary' }: ButtonProps) {
-  const navigate = useNavigate();
+function ButtonTemplate({ text, onClick, className = '', variant = 'primary' }: ButtonProps) {
 
   // Define styles for each variant
   const baseStyles: React.CSSProperties = {
@@ -39,22 +34,15 @@ function ButtonTemplate({ text, to, onClick, className = '', variant = 'primary'
       variantStyles = { backgroundColor: 'blue' };
   }
 
-  const handleClick = () => {
-    if (to) {
-      navigate(to);
-    } else if (onClick) {
-      onClick();
-    }
-  };
-
   return (
-    <button style={{ ...baseStyles, ...variantStyles }} className={className} onClick={handleClick}>
+    <button style={{ ...baseStyles, ...variantStyles }} className={className} onClick={onClick}>
       {text}
     </button>
   );
 }
 
 export default ButtonTemplate;
+
 
 
 
