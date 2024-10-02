@@ -17,13 +17,13 @@ const Button: React.FC<ButtonProps> = ({
   type = 'button',
 }) => {
   // Define the button's class names
-  const buttonClass = `button ${className}`;
+  const buttonClass = `bg-black text-white py-2 px-6 rounded-full hover:bg-gray-800 ${className}`;
 
   return (
     <button
       type={type}
       onClick={onClick}
-      className={buttonClass}
+      className= {buttonClass}             
       disabled={disabled}
     >
       {text}
