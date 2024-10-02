@@ -1,54 +1,53 @@
 import React, { useState } from 'react';
-import { RiCheckboxCircleFill, RiCheckboxBlankCircleLine } from 'react-icons/ri'; // Remix icons for filled and empty circles
-
-// Define a type for the difficulty levels
-type DifficultyLevel = 'Easy' | 'Medium' | 'Hard';
+import { RiCheckboxBlankCircleLine, RiCheckboxCircleFill } from 'react-icons/ri';
 
 const DifficultyDropdown: React.FC = () => {
-  // State to track selected difficulty with correct typing
-  const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel | ''>('');
+  const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
-  // List of difficulty levels as a constant array of DifficultyLevel type
-  const difficultyLevels: DifficultyLevel[] = ['Easy', 'Medium', 'Hard'];
+  const difficulties = [
+    { label: 'Easy', value: 'easy' },
+    { label: 'Medium', value: 'medium' },
+    { label: 'Hard', value: 'hard' }
+  ];
 
-  // Function to handle option click with proper typing
-  const handleSelect = (level: DifficultyLevel) => {
-    setSelectedDifficulty(level);
+  const toggleDropdown = () => setIsOpen(!isOpen);
+
+  const handleSelect = (difficulty: string) => {
+    setSelectedDifficulty(difficulty);
+    setIsOpen(false); // Close dropdown after selection
   };
 
   return (
-    <div className="w-full max-w-sm mx-auto">
-      {/* Label for the dropdown */}
-      <label className="block text-lg font-medium mb-2 text-gray-700">Difficulty Level</label>
+    <div className="relative inline-block w-64">
+      {/* Button to toggle the dropdown */}
+      <button
+        onClick={toggleDropdown}
+        className="bg-gray-200 px-4 py-2 rounded-md w-full text-left focus:outline-none"
+      >
+        {selectedDifficulty ? selectedDifficulty : 'Select difficulty...'}
+        <span className="ml-2 float-right">{isOpen ? '▲' : '▼'}</span>
+      </button>
 
-      {/* Dropdown Menu */}
-      <div className="relative">
-        {/* Display selected difficulty or placeholder */}
-        <div className="bg-white border rounded-lg shadow-lg p-3 cursor-pointer">
-          {selectedDifficulty ? selectedDifficulty : 'Select difficulty...'}
-        </div>
-
-        {/* Options */}
-        <ul className="absolute mt-1 w-full bg-white border rounded-lg shadow-lg z-10">
-          {difficultyLevels.map((level) => (
+      {/* Dropdown menu */}
+      {isOpen && (
+        <ul className="absolute left-0 mt-2 bg-white border border-gray-300 shadow-md w-full rounded-md z-10">
+          {difficulties.map((difficulty) => (
             <li
-              key={level}
-              onClick={() => handleSelect(level)}
-              className="flex justify-between items-center p-3 hover:bg-gray-100 cursor-pointer"
+              key={difficulty.value}
+              onClick={() => handleSelect(difficulty.label)}
+              className="px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center"
             >
-              {/* Difficulty label */}
-              <span>{level}</span>
-
-              {/* Checkbox - filled or empty circle */}
-              {selectedDifficulty === level ? (
-                <RiCheckboxCircleFill className="text-blue-500" /> // Filled circle when selected
+              {selectedDifficulty === difficulty.label ? (
+                <RiCheckboxCircleFill className="text-green-500 mr-2" />
               ) : (
-                <RiCheckboxBlankCircleLine className="text-gray-500" /> // Empty circle when not selected
+                <RiCheckboxBlankCircleLine className="mr-2" />
               )}
+              {difficulty.label}
             </li>
           ))}
         </ul>
-      </div>
+      )}
     </div>
   );
 };
