@@ -1,9 +1,11 @@
-import Button from './components/buttons/Button';
+// import Button from './components/buttons/Button';
 import Navbar from "./components/NavBar";
 import DifficultyDropdown from "./components/inputs/DifficultyDropdown"; // Import the new component
 import CategoryDropdown from "./components/inputs/CategoryDropdown";
 import TextArea from "./components/inputs/TexArea";
 import TextInput from "./components/inputs/TextInput";
+import Logo from "./components/Logo"; // Import the Logo component
+
 
 
 
@@ -26,6 +28,7 @@ function App() {
   return (
     <>
       <h1>Welcome to Wisdom War!</h1>
+      <Logo />
       <Navbar title="Explore Quizzes" />
       <div>
       <div className="p-8">
