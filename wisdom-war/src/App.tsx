@@ -1,9 +1,12 @@
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'; 
+import { useState } from "react"; 
 import Navbar from "./components/NavBar";
 import DifficultyDropdown from "./components/inputs/DifficultyDropdown"; // Import the new component
 import CategoryDropdown from "./components/inputs/CategoryDropdown";
 import TextArea from "./components/inputs/TexArea";
 import TextInput from "./components/inputs/TextInput";
-import QuestionComponent from "./components/quiz/Question"; 
+// import QuestionComponent from "./components/quiz/Question"; 
+import QuizQuestionsPage from '../src/landingPages/QuizQuestionsPage';  // import quiz landing page
 
 
 
@@ -18,42 +21,54 @@ function App() {
   const handleTextAreaChange = (value: string) => {
     console.log("Text Area Value:", value);
   };
-  
-  // event handler for the butotn click
-  // const handleButtonClick = () => {
-  //   alert('Button clicked!');
-  // };
+
+  // State to track the current question number (used by QuestionComponent)
+  const [currentQuestion] = useState(1);  // Add state for currentQuestion
 
   return (
-    <>
-      <h1>Welcome to Wisdom War!</h1>
-      <Navbar title="Explore Quizzes" />
-      <div>
-      <div className="p-8">
-      <div className="mt-4">
-      <TextInput
-        label="Enter a "
-        placeholder="Enter a title here"
-        onChange={handleTextInputChange}
-      />
-          <TextArea
-        label="Add a brief description"
-        placeholder="Enter a description here"
-        onChange={handleTextAreaChange}
-        />
-      </div>
-        <CategoryDropdown />
-          {/* Render the DifficultyDropdown component */}
+    <Router>
+      <>
+        <Navbar title="Explore Quizzes" />
+        <div className="p-8">
+          <div className="mt-4">
+            <TextInput
+              label="Enter a"
+              placeholder="Enter a title here"
+              onChange={handleTextInputChange}
+            />
+            <TextArea
+              label="Add a brief description"
+              placeholder="Enter a description here"
+              onChange={handleTextAreaChange}
+            />
+          </div>
+          <CategoryDropdown />
           <DifficultyDropdown />
-
-          {/* Insert the QuestionComponent below the dropdowns */}
-          <QuestionComponent />
-          
-      </div>
-      </div>
-    </>
+           
+        </div>
+  
+        <Routes>
+          {/* Homepage Route */}
+          <Route path="/" element={<HomePage />} />
+  
+          {/* Quiz Page Route */}
+          <Route path="/quiz" element={<QuizQuestionsPage />} />
+        </Routes>
+      </>
+    </Router>
   );
-}
+};  
+
+// Define your HomePage component
+const HomePage = () => (
+  <div className="p-8">
+    <h1>Welcome to Wisdom War!</h1>
+    <div className="mt-4">
+      <Link to="/quiz" className="text-blue-500">Start Quiz</Link>
+    </div>
+  </div>
+);
+
 
 export default App;
 
