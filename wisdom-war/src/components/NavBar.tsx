@@ -8,19 +8,19 @@ type NavProps = { title: string };
 function Navbar(props: NavProps) {
   return (
     <>
-      <nav className="navbar">
-        <div className="section-navbar">
-          <div className="title-section">
+      <nav className="navbar flex-col w-full px-4 py-8">
+        <div className="section-navbar flex justify-between items-center px4">
+          <div className="title-section flex justify-start items-center gap-4 ">
             <RiArrowLeftSLine />
             <h2>{props.title}</h2>
           </div>
-          <div className="audio-section">
+          <div className="audio-section flex items-center">
             {/* Add event listener to change on click + connect to the spotify */}
             <RiVolumeMuteFill />
             <RiVolumeUpFill />
           </div>
         </div>
-        <hr></hr>
+        <hr className=""></hr>
       </nav>
     </>
   );
