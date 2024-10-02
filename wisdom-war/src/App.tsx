@@ -5,8 +5,6 @@ import CategoryDropdown from "./components/inputs/CategoryDropdown";
 import TextArea from "./components/inputs/TexArea";
 import TextInput from "./components/inputs/TextInput";
 
-
-
 function App() {
   // Handler for TextInput change
   const handleTextInputChange = (value: string) => {
@@ -17,7 +15,7 @@ function App() {
   const handleTextAreaChange = (value: string) => {
     console.log("Text Area Value:", value);
   };
-  
+
   // event handler for the butotn click
   // const handleButtonClick = () => {
   //   alert('Button clicked!');
@@ -29,30 +27,28 @@ function App() {
       <Navbar title="Explore Quizzes" />
       <Categories categoryName="FAC" />
       {/* Render different components based on routing or state */}
-      {/* <Example: Sections/> */}      <div>
-      <div className="p-8">
-      <div className="mt-4">
-      <TextInput
-        label="Enter a "
-        placeholder="Enter a title here"
-        onChange={handleTextInputChange}
-      />
-          <TextArea
-        label="Add a brief description"
-        placeholder="Enter a description here"
-        onChange={handleTextAreaChange}
-        />
-      </div>
-        <CategoryDropdown />
+      {/* <Example: Sections/> */}{" "}
+      <div>
+        <div className="p-8">
+          <div className="mt-4">
+            <TextInput
+              label="Enter a "
+              placeholder="Enter a title here"
+              onChange={handleTextInputChange}
+            />
+            <TextArea
+              label="Add a brief description"
+              placeholder="Enter a description here"
+              onChange={handleTextAreaChange}
+            />
+          </div>
+          <CategoryDropdown />
           {/* Render the DifficultyDropdown component */}
           <DifficultyDropdown />
-       
-      </div>
+        </div>
       </div>
     </>
   );
 }
 
 export default App;
-
-
