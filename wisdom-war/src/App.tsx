@@ -3,9 +3,9 @@ import Categories from "./components/sections/Categories";
 
 function App() {
   // event handler for the butotn click
-  const handleButtonClick = () => {
-    alert('Button clicked!');
-  };
+  // const handleButtonClick = () => {
+  //   alert('Button clicked!');
+  // };
 
   return (
     <>
