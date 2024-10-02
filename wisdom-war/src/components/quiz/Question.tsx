@@ -18,11 +18,11 @@ interface QuizAnswer {
   className?: string; 
 }
 
-interface QuestionComponentProps {
-  currentQuestion: number; // Adding the props expected from QuizPage
-}
+// interface QuestionComponentProps {
+//   currentQuestion: number; // Adding the props expected from QuizPage
+// }
 
-const QuestionComponent: React.FC<QuestionComponentProps> = ({ currentQuestion }) => {
+const QuestionComponent = () => {
   // State to hold the list of questions fetched from questions.json
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
 

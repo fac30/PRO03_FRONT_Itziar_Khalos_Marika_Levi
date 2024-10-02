@@ -1,11 +1,9 @@
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'; 
-import { useState } from "react"; 
 import Navbar from "./components/NavBar";
 import DifficultyDropdown from "./components/inputs/DifficultyDropdown"; // Import the new component
 import CategoryDropdown from "./components/inputs/CategoryDropdown";
 import TextArea from "./components/inputs/TexArea";
 import TextInput from "./components/inputs/TextInput";
-// import QuestionComponent from "./components/quiz/Question"; 
 import QuizQuestionsPage from '../src/landingPages/QuizQuestionsPage';  // import quiz landing page
 
 
@@ -22,8 +20,6 @@ function App() {
     console.log("Text Area Value:", value);
   };
 
-  // State to track the current question number (used by QuestionComponent)
-  const [currentQuestion] = useState(1);  // Add state for currentQuestion
 
   return (
     <Router>
@@ -59,7 +55,7 @@ function App() {
   );
 };  
 
-// Define your HomePage component
+// Define HomePage component
 const HomePage = () => (
   <div className="p-8">
     <h1>Welcome to Wisdom War!</h1>
