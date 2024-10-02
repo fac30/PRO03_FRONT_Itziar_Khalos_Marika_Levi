@@ -12,7 +12,7 @@ const QuizQuestionsPage = () => {
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">How well do you know your cohort?</h1>
           <span className="bg-gray-200 text-sm px-4 py-2 rounded-md">
-            1/10 {/* You can dynamically update the question number */}
+            1/15 {/* You can dynamically update the question number */}
           </span>
         </div>
 

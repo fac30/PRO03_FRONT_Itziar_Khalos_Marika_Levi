@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-// Define the question object interface (renamed to avoid conflict)
+// Define the question object interface 
 interface QuizQuestion {
   id: number;
   quizId: number;
