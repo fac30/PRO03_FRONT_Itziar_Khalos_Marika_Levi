@@ -9,10 +9,8 @@ function App() {
       <Categories categoryName="FAC" />
       {/* Render different components based on routing or state */}
       {/* <Example: Sections/> */}
-      
     </>
   );
 }
 
 export default App;
-
