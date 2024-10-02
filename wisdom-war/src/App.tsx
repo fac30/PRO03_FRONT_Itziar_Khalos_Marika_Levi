@@ -3,6 +3,8 @@ import DifficultyDropdown from "./components/inputs/DifficultyDropdown"; // Impo
 import CategoryDropdown from "./components/inputs/CategoryDropdown";
 import TextArea from "./components/inputs/TexArea";
 import TextInput from "./components/inputs/TextInput";
+import QuestionComponent from "./components/quiz/Question"; 
+
 
 
 
@@ -43,9 +45,8 @@ function App() {
         <CategoryDropdown />
           {/* Render the DifficultyDropdown component */}
           <DifficultyDropdown />
+          
        
-      </div>
-      <div className="quiz-container">
       </div>
       </div>
     </>
@@ -53,5 +54,6 @@ function App() {
 }
 
 export default App;
+
 
 

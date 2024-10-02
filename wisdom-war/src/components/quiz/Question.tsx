@@ -15,6 +15,11 @@ const QuestionComponent = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
+  // Handle user's answer selection
+const handleAnswerChange = (answer: string) => {
+  setSelectedAnswer(answer);
+};
+
   // State for loading and handling errors
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -44,24 +49,40 @@ const QuestionComponent = () => {
   }, []); // Empty dependency array ensures this only runs once
 
   // JSX that renders the component
-  return (
-    <div>
-      {/* Display a loading message if the data is still being fetched */}
-      {loading && <p>Loading questions...</p>}
+return (
+  <div>
+    {/* Display a loading message if the data is still being fetched */}
+    {loading && <p>Loading questions...</p>}
 
-      {/* Display an error message if there was an error */}
-      {error && <p>{error}</p>}
+    {/* Display an error message if there was an error */}
+    {error && <p>{error}</p>}
 
-      {/* Only show questions if there are no errors and data is loaded */}
-      {!loading && !error && questions.length > 0 && (
-        <div>
-          {/* Render the current question */}
-          <h2>Question {currentQuestion + 1}</h2>
-          <p>{questions[currentQuestion].questionText}</p>
-        </div>
-      )}
-    </div>
-  );
+    {/* Only show questions if there are no errors and data is loaded */}
+    {!loading && !error && questions.length > 0 && (
+      <div>
+        <h2>Question 1</h2>
+        <p>{questions[0].questionText}</p>
+        <ul>
+          {questions[0].answers.map((answer) => (
+            <li key={answer}>
+              <label>
+                <input
+                  type="radio"
+                  name="question"
+                  value={answer}
+                  checked={selectedAnswer === answer}
+                  onChange={() => handleAnswerChange(answer)}
+                />
+                {answer}
+              </label>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+);
 };
+
 
 export default QuestionComponent;
