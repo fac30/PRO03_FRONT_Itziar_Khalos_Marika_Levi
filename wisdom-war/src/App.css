@@ -1,28 +1,28 @@
-.navbar {
+/* .navbar {
   display: flex;
   flex-direction: column;
   width: 100%;
   padding: 2rem 1rem;
-}
+} */
 
-.section-navbar {
+/* .section-navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 1rem;
-}
+} */
 
-.title-section {
+/* .title-section {
   display: flex;
   gap: 1rem;
   align-items: center;
   justify-content: flex-start;
-}
+} */
 
-.audio-section {
+/* .audio-section {
   display: flex;
   align-items: center;
-}
+} */
 
 hr {
   border: 0;
