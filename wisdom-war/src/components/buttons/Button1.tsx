@@ -1,4 +1,3 @@
-import React from 'react';
 import ButtonTemplate from './ButtonTemplate';
 
 const Button1: React.FC = () => {
