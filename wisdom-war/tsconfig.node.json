@@ -1,15 +1,13 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2023"],
-    "module": "ESNext",
+    "lib": ["ES2022"],
+    "module": "commonjs",
     "skipLibCheck": true,
 
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    /* Module Resolution */
+    "moduleResolution": "node",
     "isolatedModules": true,
-    "moduleDetection": "force",
     "noEmit": true,
 
     /* Linting */
@@ -18,5 +16,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["vite.config.ts"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }
+
