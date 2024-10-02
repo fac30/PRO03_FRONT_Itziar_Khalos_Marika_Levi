@@ -18,9 +18,6 @@ interface QuizAnswer {
   className?: string; 
 }
 
-// interface QuestionComponentProps {
-//   currentQuestion: number; // Adding the props expected from QuizPage
-// }
 
 const QuestionComponent = () => {
   // State to hold the list of questions fetched from questions.json
@@ -76,31 +73,35 @@ const QuestionComponent = () => {
   };
 
   return (
-    <div>
-      {loading && <p>Loading questions...</p>}
-      {error && <p>{error}</p>}
-
+    <div className="p-4">
+      {/* Loading and error messages */}
+      {loading && <p className="text-gray-500 text-center">Loading questions...</p>}
+      {error && <p className="text-red-500 text-center">{error}</p>}
+  
       {/* Render all questions */}
       {!loading && !error && questions.length > 0 && (
         <div>
           {questions.map((question, index) => (
-            <div key={question.id} className="my-6">
-              <h2 className="font-bold text-lg">Question {index + 1}</h2>
-              <p>{question.text}</p>
-
+            <div key={question.id} className="my-8 p-4 bg-white rounded-lg shadow-md">
+              {/* Question title */}
+              <h2 className="font-bold text-xl mb-4">Question {index + 1}</h2>
+              <p className="text-gray-700 mb-6">{question.text}</p>
+  
               {/* Render answers for each question */}
-              <ul>
+              <ul className="space-y-2">
                 {getAnswersForQuestion(question.id).map((answer) => (
-                  <li key={answer.id}>
-                    <label>
+                  <li key={answer.id} className="ml-4">
+                    <label className="flex items-center space-x-3">
+                      {/* Radio button */}
                       <input
                         type="radio"
                         name={`question-${question.id}`}
                         value={answer.text}
                         checked={selectedAnswers[question.id] === answer.text}
                         onChange={() => handleAnswerChange(question.id, answer.text)}
+                        className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                       />
-                      {answer.text}
+                      <span className="text-gray-800">{answer.text}</span>
                     </label>
                   </li>
                 ))}
@@ -113,4 +114,4 @@ const QuestionComponent = () => {
   );
 };
 
-export default QuestionComponent;
+  export default QuestionComponent;
