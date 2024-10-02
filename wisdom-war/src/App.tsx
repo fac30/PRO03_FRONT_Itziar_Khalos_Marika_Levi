@@ -1,5 +1,7 @@
 import Navbar from "./components/NavBar";
 import DifficultyDropdown from "./components/inputs/DifficultyDropdown"; // Import the new component
+import CategoryDropdown from "./components/inputs/categoryDropdown";
+
 
 
 function App() {
@@ -7,10 +9,14 @@ function App() {
     <>
       <h1>Welcome to Wisdom War!</h1>
       <Navbar title="Explore Quizzes" />
+      <div>
       <div className="p-8">
-        <p>Difficulty Level</p>
-        {/* Render the DifficultyDropdown component */}
-        <DifficultyDropdown />
+      <div className="mt-4">
+        <CategoryDropdown />
+          {/* Render the DifficultyDropdown component */}
+          <DifficultyDropdown />
+      </div>
+      </div>
       </div>
     </>
   );
