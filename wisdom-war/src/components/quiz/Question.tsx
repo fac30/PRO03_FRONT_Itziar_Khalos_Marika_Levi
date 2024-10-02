@@ -22,7 +22,7 @@ const QuestionComponent = () => {
   // Fetch questions from the service
   const fetchQuestions = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/questions.json`);
+      const response = await fetch(`http://localhost:3000/questions`);
 
       if (!response.ok) {
         throw new Error('Failed to fetch questions.');
