@@ -13,18 +13,20 @@ const DifficultyDropdown: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full md:w-1/2 mx-auto mb-4"> {/* Removed z-index here */}
+    <div className="relative w-full md:w-1/2 mx-auto mb-4">
       <label className="block mb-2 text-lg font-semibold">Difficulty Level</label>
       <div className="relative">
         <button
           onClick={() => setIsOpen(!isOpen)} // Toggle dropdown visibility
-          className="w-full border border-gray-300 bg-[var(--secondary-background)] text-left p-3 rounded-md flex justify-between items-center"
+          className={`w-full border border-gray-300 bg-[var(--secondary-background)] text-left p-3 rounded-md flex justify-between items-center ${
+            selectedDifficulty !== 'Select Difficulty' ? 'text-black' : 'text-gray-500'
+          }`} // Conditional text color
         >
-          <span className="text-gray-500">{selectedDifficulty}</span>
+          <span>{selectedDifficulty}</span>
           <RiArrowDropDownLine className="text-gray-500" />
         </button>
-        {isOpen && ( // Render the dropdown only if isOpen is true
-          <ul className="absolute left-0 right-0 bg-white border border-gray-300 rounded-md mt-1 shadow-lg z-10"> {/* Ensure z-index is set to 10 */}
+        {isOpen && (
+          <ul className="absolute left-0 right-0 bg-white border border-gray-300 rounded-md mt-1 shadow-lg z-10">
             {difficulties.map((difficulty) => (
               <li
                 key={difficulty}

@@ -1,6 +1,7 @@
 import Navbar from "./components/NavBar";
 import DifficultyDropdown from "./components/inputs/DifficultyDropdown"; // Import the new component
 import CategoryDropdown from "./components/inputs/categoryDropdown";
+import DescriptionTextarea from "./components/inputs/TexArea";
 
 
 
@@ -15,6 +16,7 @@ function App() {
         <CategoryDropdown />
           {/* Render the DifficultyDropdown component */}
           <DifficultyDropdown />
+          <DescriptionTextarea />
       </div>
       </div>
       </div>
