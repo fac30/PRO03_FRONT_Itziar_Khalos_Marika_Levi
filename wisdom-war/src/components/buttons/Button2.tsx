@@ -1,4 +1,3 @@
-// next
 import React from 'react';
 import ButtonTemplate from './ButtonTemplate';
 
@@ -6,10 +5,11 @@ const Button2: React.FC = () => {
   return (
     <ButtonTemplate
       text="Cancel"
-      variant="secondary"  // Set the secondary style variant (underline)
+      variant="secondary"
       onClick={() => console.log('Cancel')}
     />
   );
 };
 
 export default Button2;
+
