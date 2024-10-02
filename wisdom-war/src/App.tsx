@@ -1,6 +1,7 @@
+import Button from './components/buttons/Button';
 import Navbar from "./components/NavBar";
 import DifficultyDropdown from "./components/inputs/DifficultyDropdown"; // Import the new component
-import CategoryDropdown from "./components/inputs/categoryDropdown";
+import CategoryDropdown from "./components/inputs/CategoryDropdown";
 import TextArea from "./components/inputs/TexArea";
 import TextInput from "./components/inputs/TextInput";
 
@@ -17,6 +18,11 @@ function App() {
     console.log("Text Area Value:", value);
   };
   
+  // event handler for the butotn click
+  // const handleButtonClick = () => {
+  //   alert('Button clicked!');
+  // };
+
   return (
     <>
       <h1>Welcome to Wisdom War!</h1>
@@ -46,3 +52,5 @@ function App() {
 }
 
 export default App;
+
+
