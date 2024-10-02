@@ -10,41 +10,50 @@ interface ButtonProps {
 }
 
 function ButtonTemplate({ text, to, onClick, className = '', variant = 'primary' }: ButtonProps) {
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const navigate = useNavigate();
 
-  // Define base styles for each variant
-  let baseClassName = '';
+  // Define styles for each variant
+  const baseStyles: React.CSSProperties = {
+    padding: '10px 20px',
+    fontSize: '16px',
+    color: 'white',
+    borderRadius: '8px',
+    cursor: 'pointer',
+  };
+
+  let variantStyles: React.CSSProperties = {};
 
   switch (variant) {
     case 'primary':
-      baseClassName = '';
+      variantStyles = { backgroundColor: 'blue' };
       break;
     case 'secondary':
-      baseClassName = '';
+      variantStyles = { backgroundColor: 'gray' };
       break;
     case 'third':
-      baseClassName = '';
+      variantStyles = { backgroundColor: 'green' };
       break;
     default:
-      baseClassName = '';
+      variantStyles = { backgroundColor: 'blue' };
   }
 
   const handleClick = () => {
     if (to) {
-      navigate(to); // If the `to` prop is passed, navigate to the given path
+      navigate(to);
     } else if (onClick) {
-      onClick(); // Otherwise, trigger the onClick handler
+      onClick();
     }
   };
 
   return (
-    <button className={`${baseClassName} ${className}`} onClick={handleClick}>
+    <button style={{ ...baseStyles, ...variantStyles }} className={className} onClick={handleClick}>
       {text}
     </button>
   );
 }
 
 export default ButtonTemplate;
+
 
 
 
