@@ -6,7 +6,7 @@ import DifficultyDropdown from "./components/inputs/DifficultyDropdown"; // Impo
 import CategoryDropdown from "./components/inputs/CategoryDropdown";
 import TextArea from "./components/inputs/TexArea";
 import TextInput from "./components/inputs/TextInput";
-import QuizQuestionsPage from "../src/landingPages/QuizQuestionsPage"; // import quiz landing page
+import QuizQuestionsPage from "./Pages/QuizQuestionsPage"; // import quiz landing page
 
 function App() {
   // Handler for TextInput change
@@ -60,16 +60,5 @@ function App() {
   );
 }
 
-// Define HomePage component
-const HomePage = () => (
-  <div className="p-8">
-    <h1>Welcome to Wisdom War!</h1>
-    <div className="mt-4">
-      <Link to="/quiz" className="text-blue-500">
-        Start Quiz
-      </Link>
-    </div>
-  </div>
-);
 
 export default App;
