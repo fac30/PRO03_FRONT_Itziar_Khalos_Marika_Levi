@@ -1,4 +1,5 @@
-import logo from "../assets/logo.png"; // Ensure the correct path to your logo image
+import React from "react";
+import logo from "../assets/logo.png";
 
 const Logo = () => {
   return (

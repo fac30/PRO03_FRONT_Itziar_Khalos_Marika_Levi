@@ -1,65 +1,20 @@
-import React from "react"
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import Navbar from "./components/NavBar";
-import Categories from "./components/sections/Categories";
-import DifficultyDropdown from "./components/inputs/DifficultyDropdown"; // Import the new component
-import CategoryDropdown from "./components/inputs/CategoryDropdown";
-import TextArea from "./components/inputs/TexArea";
-import TextInput from "./components/inputs/TextInput";
-import QuizQuestionsPage from "./Pages/QuizQuestionsPage"; // import quiz landing page
-import HomePage from "./Pages/HomePage"; // Import HomePage component
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import HomePage from "./Pages/HomePage";
+// import ExplorePage from "./pages/ExplorePage";
+import InputPages from "./Pages/InputPages";
+import React from "react";
 
-function App() {
-  // Handler for TextInput change
-  const handleTextInputChange = (value: string) => {
-    console.log("Text Input Value:", value);
-  };
-
-  // Handler for TextArea change
-  const handleTextAreaChange = (value: string) => {
-    console.log("Text Area Value:", value);
-  };
-
+const App: React.FC = () => {
   return (
-    <>
-      <Router>
-        <Navbar title="Explore Quizzes" />
-        <Categories />
-        {/* Render different components based on routing or state */}
-        {/* <Example: Sections/> */}{" "}
-        <div className="p-8">
-          <div className="mt-4">
-            <Navbar title="Explore Quizzes" />
-            <div className="p-8">
-              <div className="mt-4">
-                <TextInput
-                  label="Enter a"
-                  placeholder="Enter a title here"
-                  onChange={handleTextInputChange}
-                />
-                <TextArea
-                  label="Add a brief description"
-                  placeholder="Enter a description here"
-                  onChange={handleTextAreaChange}
-                />
-              </div>
-            </div>
-            <CategoryDropdown />
-            {/* Render the DifficultyDropdown component */}
-            <DifficultyDropdown />
-          </div>
-        </div>
-        <Routes>
-          {/* Homepage Route */}
-          <Route path="/" element={<HomePage />} />
-
-          {/* Quiz Page Route */}
-          <Route path="/quiz" element={<QuizQuestionsPage />} />
-        </Routes>
-      </Router>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/create" element={<InputPages />} />
+      </Routes>
+    </Router>
   );
-}
-
+};
 
 export default App;
+
+// <Route path="/explore" element={<ExplorePage />} />

@@ -1,28 +1,25 @@
-import React from "react"
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import React from 'react';
+import Logo from '../components/Logo'; // Import your logo component
+import Button from '../components/buttons/Button'; // Import your button component
+import { useNavigate } from 'react-router-dom';
 
-// Define HomePage component
-const HomePage = () => (
-    <div className="p-8">
-      <h1>Welcome to Wisdom War!</h1>
-      <div className="mt-4">
-        <Link to="/quiz" className="text-blue-500">
-          Start Quiz
-        </Link>
+const HomePage: React.FC = () => {
+  const navigate = useNavigate(); // React Router hook to programmatically navigate
+
+  // Handle navigation when buttons are clicked
+  const goToCreateQuiz = () => navigate('/create-quiz');
+  const goToExploreQuizzes = () => navigate('/explore');
+
+  return (
+    <div className="flex flex-col items-center justify-center h-screen">
+      <Logo /> {/* Logo centered */}
+      <h1 className="text-3xl font-bold mt-4">Select one option:</h1>
+      <div className="flex space-x-4 mt-6"> {/* Buttons in a row with spacing */}
+        <Button text="Create a new quiz" onClick={goToCreateQuiz} />
+        <Button text="Explore our quizzes" onClick={goToExploreQuizzes} />
       </div>
     </div>
   );
-  
-// Render HomePage as the root path
-function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        {/* Other routes here */}
-      </Routes>
-    </Router>
-  );
-}
+};
 
-export default App;
+export default HomePage;
