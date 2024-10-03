@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import Navbar from '../components/NavBar'; // Import Navbar
-import TextInput from '../components/inputs/TextInput'; // Import TextInput component
-import TextArea from '../components/inputs/TextArea'; // Import TextArea component
-import CategoryDropdown from '../components/inputs/CategoryDropdown'; // Import CategoryDropdown
-import DifficultyDropdown from '../components/inputs/DifficultyDropdown'; // Import DifficultyDropdown
-import Button from '../components/buttons/Button'; // Import Button component
-import Modal from '../components/Modal'; // Import Modal component
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import Navbar from '../components/NavBar';
+import TextInput from '../components/inputs/TextInput';
+import TextArea from '../components/inputs/TextArea';
+import CategoryDropdown from '../components/inputs/CategoryDropdown';
+import DifficultyDropdown from '../components/inputs/DifficultyDropdown';
+import Button from '../components/buttons/Button';
+import Modal from '../components/Modal';
+import { useNavigate } from 'react-router-dom';
 
 const InputPages: React.FC = () => {
-  const navigate = useNavigate(); // Get the navigate function from the hook
+  const navigate = useNavigate();
   const [quizTitle, setQuizTitle] = useState(''); // State for quiz title
   const [quizDescription, setQuizDescription] = useState(''); // State for quiz description
   const [category, setCategory] = useState('Select Category'); // State for category selection
@@ -40,33 +40,77 @@ const InputPages: React.FC = () => {
     setErrorMessage(''); // Reset any previous error message
   };
 
-  // Function to handle form submission
-  const handleSubmit = () => {
+  // Validation for unique questions and distinct answers
+  const validateQuiz = () => {
     // Check if all required fields are filled
     if (!quizTitle || !quizDescription || category === 'Select Category' || difficulty === 'Select Difficulty') {
       setErrorMessage('Please fill in all fields: quiz title, description, category, and difficulty.');
-      return; // Stop the submission
+      return false; // Validation failed
     }
 
-    // Check if there are at least 10 questions
-    if (questions.length < 10) {
-      setErrorMessage('Please provide at least 10 questions.'); // Set error message
-      return; // Stop the submission
+    // Check if there are at least 5 questions
+    if (questions.length < 5) {
+      setErrorMessage('Please provide at least 5 questions.');
+      return false; // Validation failed
     }
 
-    // If all checks pass, show the modal
-    setShowModal(true); // Show the modal on submit
-    setErrorMessage(''); // Reset error message
+    // Check for duplicate questions
+    const questionSet = new Set();
+    for (const q of questions) {
+      if (!q.question) {
+        setErrorMessage('All questions must be filled in.');
+        return false; // Validation failed
+      }
+      if (questionSet.has(q.question)) {
+        setErrorMessage('Each question must be unique. Please ensure no duplicate questions.');
+        return false; // Validation failed
+      }
+      questionSet.add(q.question);
+    }
+
+    // Check for distinct correct and wrong answers
+    for (const q of questions) {
+      const { correctAnswer, wrongAnswers } = q;
+
+      if (!correctAnswer || wrongAnswers.some((wrong) => !wrong)) {
+        setErrorMessage('Each question must have a correct answer and three wrong answers.');
+        return false; // Validation failed
+      }
+
+      // Ensure the correct answer is different from all wrong answers
+      if (wrongAnswers.includes(correctAnswer)) {
+        setErrorMessage('Correct answer cannot be the same as any of the wrong answers.');
+        return false; // Validation failed
+      }
+
+      // Ensure all wrong answers are distinct from each other
+      const wrongAnswerSet = new Set(wrongAnswers);
+      if (wrongAnswerSet.size !== wrongAnswers.length) {
+        setErrorMessage('All three wrong answers must be different from each other.');
+        return false; // Validation failed
+      }
+    }
+
+    return true; // All validations passed
+  };
+
+  // Function to handle form submission
+  const handleSubmit = () => {
+    if (validateQuiz()) {
+      // If validation passes, show the modal
+      setShowModal(true);
+      setErrorMessage('');
+    }
   };
 
   // Function to handle navigation to Home
   const navigateHome = () => {
-    navigate('/'); // Replace with your home path
+    navigate('/'); // Navigate to home page
   };
 
   // Function to handle navigation to Explore Quizzes
   const navigateExplore = () => {
-    navigate('/explore'); // Replace with your explore path
+    navigate('/explore'); // Navigate to explore quizzes page
   };
 
   return (
@@ -128,22 +172,23 @@ const InputPages: React.FC = () => {
             <div className="text-red-500 text-center mt-4">{errorMessage}</div>
           )}
 
-          <div className="flex justify-center mt-4">
-            <Button text="Add more questions" onClick={addMoreQuestions} className="mr-4" />
-            <Button text="Submit" onClick={handleSubmit} />
+          {/* Button row for "Add More Questions" and "Submit Quiz" */}
+          <div className="flex justify-center mt-4 space-x-4">
+            <Button text="Add more questions" onClick={addMoreQuestions} />
+            <Button text="Submit Quiz" onClick={handleSubmit} />
           </div>
         </div>
-      </div>
 
-      {/* Render Modal if showModal is true */}
-      {showModal && (
-        <Modal
-          message="Thank you for creating your quiz!"
-          onClose={() => setShowModal(false)}
-          onHome={navigateHome}
-          onExplore={navigateExplore}
-        />
-      )}
+        {/* Modal for success message */}
+        {showModal && (
+  <Modal
+    message="Thank you for creating your quiz!"
+    onClose={() => setShowModal(false)}  // Close modal function
+    onHome={navigateHome}                 // Navigate to Home
+    onExplore={navigateExplore}           // Navigate to Explore
+  />
+)}
+      </div>
     </div>
   );
 };
