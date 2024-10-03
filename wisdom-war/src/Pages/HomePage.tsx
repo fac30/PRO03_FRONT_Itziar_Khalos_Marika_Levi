@@ -1,15 +1,29 @@
 import React from "react"
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import Button from "../components/buttons/Button"
+import { useNavigate } from "react-router-dom";
 
-// Define HomePage component
-const HomePage = () => (
-    <div className="p-8">
-      <h1>Welcome to Wisdom War!</h1>
-      <div className="mt-4">
-        <Link to="/quiz" className="text-blue-500">
-          Start Quiz
-        </Link>
-      </div>
+
+const HomePage: React.FC = () => {
+  const navigate = useNavigate();
+
+  const goToExplore = () => {
+    navigate('/explore')
+  }
+  
+  const goToInput = () => {
+    navigate("./InputPages")
+  }
+  return (
+    <div className="logo p-8">
+      <h1>Wisdom War!</h1>
+      <Button 
+        type ="button"
+        onClick={goToInput} 
+        buttonName="Create new quiz"
+        text="Create new quiz">
+      </Button>
+      <Button onClick={goToExplore} buttonName="Explore quizzes" text="Explore quizzes"></Button>
     </div>
   );
-  
+}
+  export default HomePage;

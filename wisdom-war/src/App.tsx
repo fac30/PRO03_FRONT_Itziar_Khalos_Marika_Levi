@@ -1,12 +1,14 @@
 import React from "react"
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/NavBar";
-import Categories from "./components/sections/Categories";
 import DifficultyDropdown from "./components/inputs/DifficultyDropdown"; // Import the new component
 import CategoryDropdown from "./components/inputs/CategoryDropdown";
 import TextArea from "./components/inputs/TexArea";
 import TextInput from "./components/inputs/TextInput";
-import QuizQuestionsPage from "./Pages/QuizQuestionsPage"; // import quiz landing page
+import HomePage from "./Pages/HomePage";
+import ExplorePage from "./Pages/ExplorePage"
+import QuizQuestionsPage from "./Pages/QuizQuestionsPage";
+// import InputPages from "./Pages/InputPages";
 
 function App() {
   // Handler for TextInput change
@@ -22,13 +24,22 @@ function App() {
   return (
     <>
       <Router>
-        <Navbar title="Explore Quizzes" />
-        <Categories />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+
+          <Route path="/explore" element={<ExplorePage />} />
+
+          <Route path="/quiz" element={<QuizQuestionsPage />} />
+
+          {/* <Route path="/input" element={<InputPages />} /> */}
+        </Routes>
+      </Router>
+      
         {/* Render different components based on routing or state */}
         {/* <Example: Sections/> */}{" "}
         <div className="p-8">
           <div className="mt-4">
-            <Navbar title="Explore Quizzes" />
+            <Navbar title="Create your own quiz" />
             <div className="p-8">
               <div className="mt-4">
                 <TextInput
@@ -48,17 +59,8 @@ function App() {
             <DifficultyDropdown />
           </div>
         </div>
-        <Routes>
-          {/* Homepage Route */}
-          <Route path="/" element={<HomePage />} />
-
-          {/* Quiz Page Route */}
-          <Route path="/quiz" element={<QuizQuestionsPage />} />
-        </Routes>
-      </Router>
     </>
   );
 }
-
 
 export default App;
