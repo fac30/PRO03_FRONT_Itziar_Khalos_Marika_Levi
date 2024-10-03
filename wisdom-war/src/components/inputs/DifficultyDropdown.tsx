@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { RiArrowDropDownLine } from 'react-icons/ri';
 
-const DifficultyDropdown: React.FC = () => {
+interface DifficultyDropdownProps {
+  onChange: (value: string) => void; // Prop to handle difficulty selection
+}
+
+const DifficultyDropdown: React.FC<DifficultyDropdownProps> = ({ onChange }) => {
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('Select Difficulty');
   const [isOpen, setIsOpen] = useState<boolean>(false); // State to manage dropdown visibility
 
@@ -9,6 +13,7 @@ const DifficultyDropdown: React.FC = () => {
 
   const handleSelect = (difficulty: string) => {
     setSelectedDifficulty(difficulty);
+    onChange(difficulty); // Call onChange with the selected difficulty
     setIsOpen(false); // Close dropdown after selection
   };
 
