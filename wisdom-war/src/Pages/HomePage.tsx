@@ -13,3 +13,16 @@ const HomePage = () => (
     </div>
   );
   
+// Render HomePage as the root path
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        {/* Other routes here */}
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;

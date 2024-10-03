@@ -1,3 +1,4 @@
+import React from 'react';
 import { RiArrowLeftSLine } from "react-icons/ri";
 import { RiVolumeMuteFill } from "react-icons/ri";
 import { RiVolumeUpFill } from "react-icons/ri";

@@ -7,6 +7,7 @@ import CategoryDropdown from "./components/inputs/CategoryDropdown";
 import TextArea from "./components/inputs/TexArea";
 import TextInput from "./components/inputs/TextInput";
 import QuizQuestionsPage from "./Pages/QuizQuestionsPage"; // import quiz landing page
+import HomePage from "./Pages/HomePage"; // Import HomePage component
 
 function App() {
   // Handler for TextInput change
