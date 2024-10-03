@@ -10,17 +10,23 @@ import { useNavigate } from 'react-router-dom';
 
 const InputPages: React.FC = () => {
   const navigate = useNavigate();
-  const [quizTitle, setQuizTitle] = useState(''); // State for quiz title
-  const [quizDescription, setQuizDescription] = useState(''); // State for quiz description
-  const [category, setCategory] = useState('Select Category'); // State for category selection
-  const [difficulty, setDifficulty] = useState('Select Difficulty'); // State for difficulty selection
+  const [quizTitle, setQuizTitle] = useState('');
+  const [quizDescription, setQuizDescription] = useState('');
+  const [category, setCategory] = useState('Select Category');
+  const [difficulty, setDifficulty] = useState('Select Difficulty');
   const [questions, setQuestions] = useState<{ question: string; correctAnswer: string; wrongAnswers: string[] }[]>([
     { question: '', correctAnswer: '', wrongAnswers: ['', '', ''] },
   ]);
-  const [showModal, setShowModal] = useState(false); // State to control modal visibility
-  const [errorMessage, setErrorMessage] = useState(''); // State for error messages
+  const [showModal, setShowModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  // Handle input change for questions and answers
+  // Error tracking states
+  const [titleError, setTitleError] = useState('');
+  const [descriptionError, setDescriptionError] = useState('');
+  const [categoryError, setCategoryError] = useState('');
+  const [difficultyError, setDifficultyError] = useState('');
+  const [questionErrors, setQuestionErrors] = useState<string[]>([]);
+
   const handleInputChange = (index: number, field: string, value: string) => {
     const updatedQuestions = [...questions];
     if (field === 'question') {
@@ -28,166 +34,211 @@ const InputPages: React.FC = () => {
     } else if (field === 'correctAnswer') {
       updatedQuestions[index].correctAnswer = value;
     } else {
-      const wrongIndex = parseInt(field.split('_')[1]); // Extract the wrong answer index
+      const wrongIndex = parseInt(field.split('_')[1]);
       updatedQuestions[index].wrongAnswers[wrongIndex] = value;
     }
     setQuestions(updatedQuestions);
   };
 
-  // Function to add more questions
   const addMoreQuestions = () => {
     setQuestions([...questions, { question: '', correctAnswer: '', wrongAnswers: ['', '', ''] }]);
-    setErrorMessage(''); // Reset any previous error message
+    setErrorMessage('');
   };
 
-  // Validation for unique questions and distinct answers
   const validateQuiz = () => {
-    // Check if all required fields are filled
-    if (!quizTitle || !quizDescription || category === 'Select Category' || difficulty === 'Select Difficulty') {
-      setErrorMessage('Please fill in all fields: quiz title, description, category, and difficulty.');
-      return false; // Validation failed
+    let isValid = true;
+    setTitleError('');
+    setDescriptionError('');
+    setCategoryError('');
+    setDifficultyError('');
+    setQuestionErrors(Array(questions.length).fill('')); // Reset question errors
+
+    // Validate Title
+    if (!quizTitle) {
+      setTitleError('Quiz title is required.');
+      isValid = false;
     }
 
-    // Check if there are at least 5 questions
+    // Validate Description
+    if (!quizDescription) {
+      setDescriptionError('Quiz description is required.');
+      isValid = false;
+    }
+
+    // Validate Category
+    if (category === 'Select Category') {
+      setCategoryError('Category must be selected.');
+      isValid = false;
+    }
+
+    // Validate Difficulty
+    if (difficulty === 'Select Difficulty') {
+      setDifficultyError('Difficulty must be selected.');
+      isValid = false;
+    }
+
+    // Validate Questions
     if (questions.length < 5) {
       setErrorMessage('Please provide at least 5 questions.');
-      return false; // Validation failed
+      isValid = false;
+    } else {
+      const questionSet = new Set<string>();
+      const tempErrors = Array(questions.length).fill(''); // Error tracking for each question
+
+      questions.forEach((q, index) => {
+        if (!q.question) {
+          tempErrors[index] = 'Question cannot be empty.';
+          isValid = false;
+        } else if (questionSet.has(q.question)) {
+          tempErrors[index] = 'Questions must be unique.'; // Mark error for this question
+          isValid = false;
+        } else {
+          questionSet.add(q.question);
+        }
+
+        if (!q.correctAnswer) {
+          tempErrors[index] = 'Correct answer is required.';
+          isValid = false;
+        } else if (q.wrongAnswers.includes(q.correctAnswer)) {
+          tempErrors[index] = 'Correct answer must be different from wrong answers.';
+          isValid = false;
+        }
+
+        // Ensure all wrong answers are filled
+        q.wrongAnswers.forEach((wrongAnswer, wrongIndex) => {
+          if (!wrongAnswer) {
+            tempErrors[index] = 'All wrong answers must be provided.';
+            isValid = false;
+          }
+        });
+
+        // Ensure wrong answers are unique
+        const wrongAnswerSet = new Set(q.wrongAnswers);
+        if (wrongAnswerSet.size !== q.wrongAnswers.length) {
+          tempErrors[index] = 'Wrong answers must be unique.';
+          isValid = false;
+        }
+      });
+
+      setQuestionErrors(tempErrors);
     }
 
-    // Check for duplicate questions
-    const questionSet = new Set();
-    for (const q of questions) {
-      if (!q.question) {
-        setErrorMessage('All questions must be filled in.');
-        return false; // Validation failed
-      }
-      if (questionSet.has(q.question)) {
-        setErrorMessage('Each question must be unique. Please ensure no duplicate questions.');
-        return false; // Validation failed
-      }
-      questionSet.add(q.question);
-    }
-
-    // Check for distinct correct and wrong answers
-    for (const q of questions) {
-      const { correctAnswer, wrongAnswers } = q;
-
-      if (!correctAnswer || wrongAnswers.some((wrong) => !wrong)) {
-        setErrorMessage('Each question must have a correct answer and three wrong answers.');
-        return false; // Validation failed
-      }
-
-      // Ensure the correct answer is different from all wrong answers
-      if (wrongAnswers.includes(correctAnswer)) {
-        setErrorMessage('Correct answer cannot be the same as any of the wrong answers.');
-        return false; // Validation failed
-      }
-
-      // Ensure all wrong answers are distinct from each other
-      const wrongAnswerSet = new Set(wrongAnswers);
-      if (wrongAnswerSet.size !== wrongAnswers.length) {
-        setErrorMessage('All three wrong answers must be different from each other.');
-        return false; // Validation failed
-      }
-    }
-
-    return true; // All validations passed
+    return isValid; 
   };
 
-  // Function to handle form submission
   const handleSubmit = () => {
     if (validateQuiz()) {
-      // If validation passes, show the modal
       setShowModal(true);
       setErrorMessage('');
     }
   };
 
-  // Function to handle navigation to Home
   const navigateHome = () => {
-    navigate('/'); // Navigate to home page
+    navigate('/'); 
   };
 
-  // Function to handle navigation to Explore Quizzes
   const navigateExplore = () => {
-    navigate('/explore'); // Navigate to explore quizzes page
+    navigate('/explore'); 
   };
 
   return (
     <div className="min-h-screen">
-      {/* Display the Navbar */}
       <Navbar title="Make your quiz" />
-
       <div className="p-4">
-        {/* Add inputs for quiz creation */}
         <TextInput
           placeholder="Enter quiz title"
           label="Name of the quiz"
           value={quizTitle}
-          onChange={(value) => setQuizTitle(value)} // Update quiz title state
+          onChange={(value) => setQuizTitle(value)} 
+          className={titleError ? "text-red-500" : ""}
         />
+        {titleError && <p className="text-red-500">{titleError}</p>}
+
         <TextArea
           placeholder="Enter a description here"
           label="Add a brief description"
           value={quizDescription}
-          onChange={(value) => setQuizDescription(value)} // Update quiz description state
+          onChange={(value) => setQuizDescription(value)} 
+          className={descriptionError ? "text-red-500" : ""}
         />
-        <CategoryDropdown onChange={setCategory} /> {/* Pass selected category to state */}
-        <DifficultyDropdown onChange={setDifficulty} /> {/* Pass selected difficulty to state */}
+        {descriptionError && <p className="text-red-500">{descriptionError}</p>}
 
-        {/* Add a line after the Difficulty Dropdown */}
-        <hr className="my-4" /> {/* Add styling here for spacing */}
+        <CategoryDropdown 
+          onChange={(value) => {
+            setCategory(value);
+            setCategoryError(value === 'Select Category' ? 'Category must be selected.' : '');
+          }} 
+          className={categoryError ? "text-red-500" : ""}
+        />
+        {categoryError && <p className="text-red-500">{categoryError}</p>}
 
-        {/* Questions and Answers Section */}
+        <DifficultyDropdown 
+          onChange={(value) => {
+            setDifficulty(value);
+            setDifficultyError(value === 'Select Difficulty' ? 'Difficulty must be selected.' : '');
+          }} 
+          className={difficultyError ? "text-red-500" : ""}
+        />
+        {difficultyError && <p className="text-red-500">{difficultyError}</p>}
+
+        <hr className="my-4" />
+
         <div className="mt-6">
           {questions.map((q, index) => (
             <div key={index} className="mb-4">
+              {/* Display the question error above the inputs */}
+              {questionErrors[index] && <p className="text-red-500">{questionErrors[index]}</p>}
+              
               <TextInput
                 label={`Question ${index + 1}`}
                 placeholder="Type the question here"
                 value={q.question}
-                onChange={(value) => handleInputChange(index, 'question', value)} // Update question state
+                onChange={(value) => handleInputChange(index, 'question', value)} 
               />
+
               <TextInput
                 label="Correct Answer"
                 placeholder="Type the correct answer here"
                 value={q.correctAnswer}
-                onChange={(value) => handleInputChange(index, 'correctAnswer', value)} // Update correct answer state
+                onChange={(value) => handleInputChange(index, 'correctAnswer', value)} 
               />
+
               {q.wrongAnswers.map((wrongAnswer, i) => (
                 <TextInput
                   key={i}
                   label={`Wrong Answer ${i + 1}`}
                   placeholder="Type the wrong answer here"
                   value={wrongAnswer}
-                  onChange={(value) => handleInputChange(index, `wrong_${i}`, value)} // Update wrong answer state
+                  onChange={(value) => handleInputChange(index, `wrong_${i}`, value)} 
                 />
               ))}
-              <hr className="my-4" /> {/* Add a line between question blocks */}
+              <hr className="my-4" />
             </div>
           ))}
 
-          {/* Display error message in the center */}
           {errorMessage && (
             <div className="text-red-500 text-center mt-4">{errorMessage}</div>
           )}
 
-          {/* Button row for "Add More Questions" and "Submit Quiz" */}
+          {/* New Error Message for scrolling back */}
+          {titleError || descriptionError || categoryError || difficultyError || questionErrors.some(e => e) ? (
+            <p className="text-red-500 text-center mt-4">Please fix the errors above before submitting.</p>
+          ) : null}
+
           <div className="flex justify-center mt-4 space-x-4">
             <Button text="Add more questions" onClick={addMoreQuestions} />
             <Button text="Submit Quiz" onClick={handleSubmit} />
           </div>
         </div>
 
-        {/* Modal for success message */}
         {showModal && (
-  <Modal
-    message="Thank you for creating your quiz!"
-    onClose={() => setShowModal(false)}  // Close modal function
-    onHome={navigateHome}                 // Navigate to Home
-    onExplore={navigateExplore}           // Navigate to Explore
-  />
-)}
+          <Modal
+            message="Thank you for creating your quiz!"
+            onClose={() => setShowModal(false)}  
+            onHome={navigateHome}                 
+            onExplore={navigateExplore}           
+          />
+        )}
       </div>
     </div>
   );
