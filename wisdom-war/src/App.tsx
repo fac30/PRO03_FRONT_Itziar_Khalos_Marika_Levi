@@ -4,6 +4,7 @@ import DifficultyDropdown from "./components/inputs/DifficultyDropdown"; // Impo
 import CategoryDropdown from "./components/inputs/CategoryDropdown";
 import TextArea from "./components/inputs/TexArea";
 import TextInput from "./components/inputs/TextInput";
+import Logo from "./components/Logo";
 
 
 
@@ -25,6 +26,9 @@ function App() {
 
   return (
     <>
+      <div className="flex items-center justify-center h-screen">
+      <Logo />
+    </div>
       <h1>Welcome to Wisdom War!</h1>
       <Navbar title="Explore Quizzes" />
       <div>

@@ -1,9 +1,20 @@
-import logo from './assets/logo.png'; // adjust the path accordingly
+import logo from "../assets/logo.png"; // Ensure the correct path to your logo image
 
-function LogoComponent() {
+const Logo = () => {
   return (
-    <img src={logo} alt="Wisdom War Logo" className="logo-class" />
+    <div className="flex flex-col items-center text-center">
+      {/* Logo Image */}
+      <img
+        src={logo}
+        alt="Wisdom War Logo"
+        className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg"
+      />
+      {/* Label under the logo */}
+      <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mt-4">
+        Welcome to Wisdom War!
+      </h1>
+    </div>
   );
-}
+};
 
-export default LogoComponent;
+export default Logo;
