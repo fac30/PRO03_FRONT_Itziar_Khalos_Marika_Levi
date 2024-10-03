@@ -1,3 +1,4 @@
+import React from "react";
 import { RiArrowLeftSLine } from "react-icons/ri";
 import { RiVolumeMuteFill } from "react-icons/ri";
 import { RiVolumeUpFill } from "react-icons/ri";
@@ -16,8 +17,8 @@ function Navbar(props: NavProps) {
           </div>
           <div className="audio-section flex items-center">
             {/* Add event listener to change on click + connect to the spotify */}
-            <RiVolumeMuteFill />
-            <RiVolumeUpFill />
+            {/* <RiVolumeMuteFill />
+            <RiVolumeUpFill /> */}
           </div>
         </div>
         <hr className=""></hr>

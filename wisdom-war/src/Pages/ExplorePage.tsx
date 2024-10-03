@@ -6,9 +6,7 @@ import { useNavigate } from "react-router-dom";
 const ExplorePage: React.FC = () => { 
     const navigate = useNavigate();
 
-    const goToQuiz = () => {
-        navigate('./QuizQuestionPage')
-      }
+    
     return (
         <div className="explore">
         <Navbar title="Explore Quizzes" />
