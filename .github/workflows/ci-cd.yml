@@ -42,7 +42,7 @@ jobs:
               echo "AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION"
 
       - name: Sync files to my S3 bucket
-        run:  aws s3 sync "./wisdom-war/dist" s3://wisdom-wars
+        run:  aws s3 sync "./wisdom-war/dist" s3://wisdom-wars-quiz
 
       
 
