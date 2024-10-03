@@ -13,7 +13,7 @@ const InputPages: React.FC = () => {
 
       <div className="p-4">
         {/* Add inputs for quiz creation */}
-        <TextInput placeholder="Enter quiz title" onChange={function (value: string): void {
+        <TextInput placeholder="Enter quiz title" label="Name of the quiz" onChange={function (value: string): void {
           throw new Error('Function not implemented.');
         } } />
         <TextArea placeholder="Enter a description here" label="Add a brief description" onChange={function (value: string): void {
