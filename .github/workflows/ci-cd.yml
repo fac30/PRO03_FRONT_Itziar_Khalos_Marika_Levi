@@ -21,7 +21,7 @@ jobs:
           node-version: '16'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
         working-directory: ./wisdom-war  # Set working directory
   
       - name: Build the project
