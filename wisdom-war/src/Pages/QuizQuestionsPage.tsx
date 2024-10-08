@@ -1,6 +1,7 @@
 import React from "react"
 import Navbar from "../components/NavBar";
 import QuestionComponent from "../components/quiz/Question";
+import Button from "../components/buttons/Button";
 
 const QuizQuestionsPage = () => {
   return (
@@ -21,6 +22,7 @@ const QuizQuestionsPage = () => {
         <div className="w-full">
           <QuestionComponent />
         </div>
+        {/* <Button --> for submit but has to be linked to the quiz logic where Has to check how many answers are Correct for then gpo to the result page and provide the score */}
       </div>
     </div>
   );
