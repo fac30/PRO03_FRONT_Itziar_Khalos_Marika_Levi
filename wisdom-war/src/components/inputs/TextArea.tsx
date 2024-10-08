@@ -4,6 +4,8 @@ interface TextAreaProps {
   label?: string;
   placeholder?: string;
   onChange: (value: string) => void;
+  value: string;
+  className: string;
 }
 
 const sanitizeInput = (value: string) => {
