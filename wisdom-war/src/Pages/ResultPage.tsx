@@ -9,7 +9,7 @@ const ResultPage = () => {
         <div className="">
             <Navbar title="Result Quiz: Wow well do you know your cohort?" />
             {/* <p>Correct Answers: {goes the result quiz logic}</p>  */}
-            <Button text="Play Again" path="/QuizQuestionsPage" />
+            <Button text="Home" path="/HomePage" />
             <Button text="Explore More Quizzes" path="/ExplorePage" />
         </div>
     );
