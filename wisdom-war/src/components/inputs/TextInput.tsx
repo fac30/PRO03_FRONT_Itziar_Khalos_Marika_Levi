@@ -5,6 +5,7 @@ interface TextInputProps {
   placeholder?: string;
   value: string; // Add the value prop here
   onChange: (value: string) => void;
+  className: string;
 }
 
 const sanitizeInput = (value: string) => {
