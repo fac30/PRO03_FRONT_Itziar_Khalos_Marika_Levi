@@ -1,11 +1,11 @@
-import React from "react"
+import React from "react";
 
 import QuestionComponent from "../components/quiz/Question";
 
 const QuizQuestionsPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-          {/* Content */}
+      {/* Content */}
       <div className="w-full max-w-3xl mx-auto mt-8 p-4 bg-white rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-6">
           <span className="bg-gray-200 text-sm px-4 py-2 rounded-md">
@@ -23,7 +23,3 @@ const QuizQuestionsPage = () => {
 };
 
 export default QuizQuestionsPage;
-
-
-
-

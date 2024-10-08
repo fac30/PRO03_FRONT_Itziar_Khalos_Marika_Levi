@@ -1,7 +1,12 @@
 import React from "react";
 import Button from "../buttons/Button";
 
-type CardProps = { quizName: string; description: string; level: string };
+type CardProps = {
+  quizId: number;
+  quizName: string;
+  description: string;
+  level: string;
+};
 
 function Card(props: CardProps) {
   return (
@@ -14,11 +19,7 @@ function Card(props: CardProps) {
         <p className="level text-medium font-semibold p-2">
           Level: {props.level}
         </p>
-        <Button
-          text="Play"
-          // The path needs to go inside the specific quiz using ID
-          path="/QuizQuestionPage"
-        ></Button>
+        <Button text="Play" path={`/QuizQuestionPage/${props.quizId}`}></Button>
       </div>
     </>
   );

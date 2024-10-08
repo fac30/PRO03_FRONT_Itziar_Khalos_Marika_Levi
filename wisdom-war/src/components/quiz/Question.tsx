@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Navbar from "../../components/NavBar";
 
 interface QuizQuestion {
@@ -18,7 +19,7 @@ interface QuizAnswer {
   className?: string;
 }
 
-type Quiz = {
+interface Quiz {
   id: number;
   name: string;
 };
@@ -35,11 +36,13 @@ const QuestionComponent = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const { quizId } = useParams<{ quizId: string }>();
+
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
         const questionsResponse = await fetch(
-          "http://localhost:3000/questions"
+          `http://localhost:3000/questions?quizId=${quizId}`
         );
         if (!questionsResponse.ok)
           throw new Error("Failed to fetch questions.");
@@ -64,12 +67,12 @@ const QuestionComponent = () => {
     };
 
     fetchQuestions();
-  }, []);
+  }, [quizId]);
 
-  const getQuizTitle = (id: number, quizName: string) => {
-    return quizzes.filter((name) => quizzes.id === id);
+  const getQuizTitle = (quizId: number) => {
+    const quiz = quizzes.find((quiz) => quiz.id === quizId);
+    return quiz ? quiz.name : "Quiz Not Found";
   };
-  // This is not working - needs fixing
 
   const getAnswersForQuestion = (questionId: number) => {
     return answers.filter((answer) => answer.questionId === questionId);
@@ -90,13 +93,8 @@ const QuestionComponent = () => {
       {error && <p className="text-red-500 text-center">{error}</p>}
       {!loading && !error && questions.length > 0 && (
         <div>
-          <Navbar
-            title={
-              quizzes.length > 0 ? quizzes[quizId].name : "No Quiz Available"
-            }
-          />
-          {/* I need to get the quiz title dynamically from the json file */}
-
+           <Navbar title={getQuizTitle(Number(quizId))} />
+        
           {questions.map((question, index) => (
             <div
               key={question.id}
