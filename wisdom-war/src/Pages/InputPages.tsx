@@ -131,40 +131,120 @@ const InputPages: React.FC = () => {
     return isValid;
   };
 
+  function setIsLoading(arg0: boolean) {
+    throw new Error("Function not implemented.");
+  }
+  
   const handleSubmit = async () => {
     if (validateQuiz()) {
-      setShowModal(false);
+      setIsLoading(true); 
       setErrorMessage("");
+  
+      // Prepare quiz data with number of questions
       const quizData = {
         title: quizTitle,
         description: quizDescription,
         category,
         difficulty,
-        questions,
+        numberOfQuestions: questions.length, 
       };
-
+  
       try {
-        const response = await fetch("http://localhost:3000/quizzes", {
+        // Post the quiz
+        const quizResponse = await fetch("http://localhost:3000/quizzes", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(quizData),
         });
-
-        if (!response.ok) {
+  
+        if (!quizResponse.ok) {
           throw new Error("Failed to create quiz");
         }
-
-        const data = await response.json();
-        console.log("Quiz created successfully:", data);
-        setShowModal(true); // Show success modal
+  
+        const quiz = await quizResponse.json(); // Contains the quizId
+        const quizId = quiz.id; // Get the quizId from the created quiz
+  
+        // Post each question and its answers to the respective endpoints
+        for (const q of questions) {
+          // Prepare question data for /questions
+          const questionData = {
+            quizId, 
+            text: q.question, 
+            type: "multiple choice", 
+            points: 1, 
+          };
+  
+          // Post the question to /questions
+          const questionResponse = await fetch("http://localhost:3000/questions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(questionData),
+          });
+  
+          if (!questionResponse.ok) {
+            throw new Error(`Failed to create question: ${q.question}`);
+          }
+  
+          const question = await questionResponse.json();
+          const questionId = question.id; // Get the generated questionId
+  
+          // Now, post the correct answer to /answers
+          const correctAnswerData = {
+            questionId, 
+            text: q.correctAnswer, 
+            isCorrect: true, 
+          };
+  
+          const correctAnswerResponse = await fetch("http://localhost:3000/answers", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(correctAnswerData),
+          });
+  
+          if (!correctAnswerResponse.ok) {
+            throw new Error(`Failed to create correct answer for question: ${q.question}`);
+          }
+  
+          // Post the wrong answers to /answers
+          for (const wrongAnswer of q.wrongAnswers) {
+            const wrongAnswerData = {
+              questionId, 
+              text: wrongAnswer, 
+              isCorrect: false, 
+            };
+  
+            const wrongAnswerResponse = await fetch("http://localhost:3000/answers", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(wrongAnswerData),
+            });
+  
+            if (!wrongAnswerResponse.ok) {
+              throw new Error(`Failed to create wrong answer for question: ${q.question}`);
+            }
+          }
+        }
+  
+        console.log("Quiz, questions, and answers created successfully");
+        setShowModal(true); 
+        setIsLoading(false); 
       } catch (error) {
-        console.error("Error creating quiz:", error);
-        setApiError("Failed to create quiz. Please try again.");
+        console.error("Error creating quiz, questions, or answers:", error);
+        setApiError("Failed to create quiz, questions, or answers. Please try again.");
+        setIsLoading(false); 
       }
     }
   };
+  
+  
 
   const navigateHome = () => {
     navigate("/");
@@ -301,3 +381,4 @@ const InputPages: React.FC = () => {
 };
 
 export default InputPages;
+
