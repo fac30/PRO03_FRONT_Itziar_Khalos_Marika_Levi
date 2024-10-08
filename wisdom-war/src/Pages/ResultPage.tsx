@@ -3,16 +3,24 @@ import Navbar from "../components/NavBar";
 import Button from "../components/buttons/Button";
 
 
-const ResultPage = () => {
- 
+interface ResultPageProps {
+    result: {
+      scorePercentage: number;
+      totalCorrect: number;
+      totalQuestions: number;
+      score?: number;
+    };
+  }
+  
+  const ResultPage: React.FC<ResultPageProps> = ({ result }) => {
     return (
-        <div className="">
-            <Navbar title="Result Quiz: Wow well do you know your cohort?" />
-            {/* <p>Correct Answers: {goes the result quiz logic}</p>  */}
-            <Button text="Home" path="/HomePage" />
-            <Button text="Explore More Quizzes" path="/ExplorePage" />
-        </div>
+      <div>
+        <h1>Your Quiz Results</h1>
+        <p>You scored: {result.scorePercentage}%</p>
+        <p>Correct Answers: {result.totalCorrect} out of {result.totalQuestions}</p>
+      </div>
     );
-};
-
-export default ResultPage;
+  };
+  
+  export default ResultPage;
+  

@@ -1,14 +1,12 @@
-import React from "react"
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-// Define the question object interface 
 interface QuizQuestion {
   id: number;
   quizId: number;
   text: string;
   type: string;
   points: number;
-  className?: string; // Optional className for custom styles
+  className?: string;
 }
 
 interface QuizAnswer {
@@ -16,27 +14,20 @@ interface QuizAnswer {
   questionId: number;
   text: string;
   isCorrect: boolean;
-  className?: string; 
+  className?: string;
 }
 
+interface QuestionComponentProps {
+  setUserAnswers: (answers: { [key: number]: string }) => void; // Function to pass selected answers to parent
+}
 
-const QuestionComponent = () => {
-  // State to hold the list of questions fetched from questions.json
+const QuestionComponent: React.FC<QuestionComponentProps> = ({ setUserAnswers }) => {
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
-
-  // State to hold the list of answers fetched from answers.json
   const [answers, setAnswers] = useState<QuizAnswer[]>([]);
-
-  // State to hold the user's selected answers (mapped by questionId)
   const [selectedAnswers, setSelectedAnswers] = useState<{ [key: number]: string }>({});
-
-  // State to manage the loading status
   const [loading, setLoading] = useState(true);
-
-  // State to manage error messages in case of fetch failures
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch questions and answers when the component is mounted
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
@@ -65,35 +56,29 @@ const QuestionComponent = () => {
     return answers.filter(answer => answer.questionId === questionId);
   };
 
-  // Handle user's answer selection
+  // Handle user's answer selection and notify parent component
   const handleAnswerChange = (questionId: number, answer: string) => {
-    setSelectedAnswers(prev => ({
-      ...prev,
-      [questionId]: answer,
-    }));
+    const updatedAnswers = { ...selectedAnswers, [questionId]: answer };
+    setSelectedAnswers(updatedAnswers);
+    setUserAnswers(updatedAnswers); // Pass the selected answers to the parent component
   };
 
   return (
     <div className="p-4">
-      {/* Loading and error messages */}
       {loading && <p className="text-gray-500 text-center">Loading questions...</p>}
       {error && <p className="text-red-500 text-center">{error}</p>}
   
-      {/* Render all questions */}
       {!loading && !error && questions.length > 0 && (
         <div>
           {questions.map((question, index) => (
             <div key={question.id} className="my-8 p-4 bg-white rounded-lg shadow-md">
-              {/* Question title */}
               <h2 className="font-bold text-xl mb-4">Question {index + 1}</h2>
               <p className="text-gray-700 mb-6">{question.text}</p>
   
-              {/* Render answers for each question */}
               <ul className="space-y-2">
                 {getAnswersForQuestion(question.id).map((answer) => (
                   <li key={answer.id} className="ml-4">
                     <label className="flex items-center space-x-3">
-                      {/* Radio button */}
                       <input
                         type="radio"
                         name={`question-${question.id}`}
@@ -115,4 +100,4 @@ const QuestionComponent = () => {
   );
 };
 
-  export default QuestionComponent;
+export default QuestionComponent;

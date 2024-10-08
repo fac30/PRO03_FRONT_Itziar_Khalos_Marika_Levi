@@ -19,7 +19,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   type = 'button',
 }) => {
-  const navigate = useNavigate(); // Use the navigation hook
+  const navigate = useNavigate(); 
 
   // Define the button's class names
   const buttonClass = `bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-800 focus:outline-none ${className}`;
