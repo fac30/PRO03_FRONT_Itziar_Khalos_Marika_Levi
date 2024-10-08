@@ -1,7 +1,8 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './Pages/HomePage';
-// import ExplorePage from './pages/ExplorePage';
+import React from "react"
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import HomePage from "./Pages/HomePage";
+import ExplorePage from "./Pages/ExplorePage"
+import QuizQuestionsPage from "./Pages/QuizQuestionsPage";
 import InputPages from './Pages/InputPages';
 
 
@@ -10,7 +11,9 @@ const App: React.FC = () => {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/create" element={<InputPages />} />  {/* Route for quiz creation */}
+        <Route path="/create" element={<InputPages />} />
+        <Route path="/explore" element={<ExplorePage />} />
+        <Route path="/quiz" element={<QuizQuestionsPage />} />
       </Routes>
     </Router>
   );
