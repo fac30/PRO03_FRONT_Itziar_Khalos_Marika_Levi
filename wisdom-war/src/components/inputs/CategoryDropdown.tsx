@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { RiArrowDropDownLine } from 'react-icons/ri';
 
-const CategoryDropdown: React.FC = () => {
+interface CategoryDropdownProps {
+  onChange: (value: string) => void; // Prop to handle category selection
+}
+
+const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ onChange }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Select Category');
   const [isOpen, setIsOpen] = useState<boolean>(false); // State to manage dropdown visibility
 
@@ -9,6 +13,7 @@ const CategoryDropdown: React.FC = () => {
 
   const handleSelect = (category: string) => {
     setSelectedCategory(category);
+    onChange(category); // Call onChange with the selected category
     setIsOpen(false); // Close dropdown after selection
   };
 
@@ -44,3 +49,4 @@ const CategoryDropdown: React.FC = () => {
 };
 
 export default CategoryDropdown;
+

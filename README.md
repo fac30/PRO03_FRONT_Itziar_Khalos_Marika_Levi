@@ -99,3 +99,59 @@ All components utilize Tailwind CSS for styling, ensuring a responsive and consi
 
 #### Conclusion
 These input components are designed to be reusable, responsive, and user-friendly, providing a solid foundation for the quiz creation process in the Wisdom War application. Feel free to customize and extend these components as needed for your project.
+
+# InputPages.tsx Component
+
+The `InputPages.tsx` component is designed for creating quizzes by allowing users to input various details, including the quiz title, description, category, difficulty, and questions with answers. This document outlines the features and functionalities available in the component.
+
+## Features
+
+### 1. **Quiz Title Input**
+   - A text input field where users can enter the title of the quiz.
+   - Validates that the title is not empty.
+   - Displays an error message in red if the title is missing.
+
+### 2. **Quiz Description Input**
+   - A text area for entering a brief description of the quiz.
+   - Validates that the description is not empty.
+   - Displays an error message in red if the description is missing.
+
+### 3. **Category Dropdown**
+   - A dropdown menu for selecting the quiz category.
+   - Validates that a category is selected.
+   - Displays an error message in red if no category is selected.
+
+### 4. **Difficulty Dropdown**
+   - A dropdown menu for selecting the quiz difficulty level.
+   - Validates that a difficulty level is selected.
+   - Displays an error message in red if no difficulty is selected.
+
+### 5. **Questions and Answers Section**
+   - Users can add a minimum of 5 questions.
+   - Each question includes:
+     - A text input for the question itself.
+     - A text input for the correct answer.
+     - Three text inputs for wrong answers.
+   - Validates that:
+     - Each question must not be empty.
+     - All questions must be unique.
+     - The correct answer must be different from the wrong answers.
+     - All wrong answers must be filled and unique.
+   - Displays specific error messages above each question block if validation fails.
+
+### 6. **Error Messages**
+   - Error messages are displayed in red next to the fields that have issues.
+   - A summary error message appears above the submit buttons if any validation errors exist, prompting the user to fix the errors.
+
+### 7. **Buttons**
+   - **Add More Questions**: Allows users to add additional question blocks dynamically.
+   - **Submit Quiz**: Validates the quiz inputs and displays a modal if the validation passes.
+   - **Navigation Buttons in Modal**:
+     - **Back to Home**: Navigates to the homepage.
+     - **Explore Quizzes**: Navigates to the explore quizzes page.
+
+### 8. **Modal**
+   - Displays a thank-you message upon successful quiz creation.
+   - Contains navigation options to return to the homepage or explore quizzes.
+
+
