@@ -11,7 +11,7 @@ type CardProps = {
 function Card(props: CardProps) {
   return (
     <>
-      <div className="card p-10 rounded-md my-5">
+      <div className="card p-10 rounded-md my-5 max-w-lg">
         <h3 className="quiz-name text-2xl font-semibold p-2">
           {props.quizName}
         </h3>
@@ -19,7 +19,7 @@ function Card(props: CardProps) {
         <p className="level text-medium font-semibold p-2">
           Level: {props.level}
         </p>
-        <Button text="Play" path={`/QuizQuestionPage/${props.quizId}`}></Button>
+        <Button text="Play" path={`/QuizQuestionPage/${props.quizId}`} className=""></Button>
       </div>
     </>
   );
