@@ -20,6 +20,7 @@ const InputPages: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [apiError, setApiError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   // Error tracking states
   const [titleError, setTitleError] = useState("");
@@ -130,27 +131,23 @@ const InputPages: React.FC = () => {
 
     return isValid;
   };
-
-  function setIsLoading(arg0: boolean) {
-    throw new Error("Function not implemented.");
-  }
   
   const handleSubmit = async () => {
     if (validateQuiz()) {
-      setIsLoading(true); 
+      setShowModal(false);
       setErrorMessage("");
+      setIsLoading(true); // Set loading state when submission starts
   
-      // Prepare quiz data with number of questions
       const quizData = {
-        title: quizTitle,
+        name: quizTitle,
         description: quizDescription,
         category,
         difficulty,
-        numberOfQuestions: questions.length, 
+        numberOfQuestions: questions.length, // Total number of questions
       };
   
       try {
-        // Post the quiz
+        // POST quiz to quizzes.json
         const quizResponse = await fetch("http://localhost:3000/quizzes", {
           method: "POST",
           headers: {
@@ -163,20 +160,20 @@ const InputPages: React.FC = () => {
           throw new Error("Failed to create quiz");
         }
   
-        const quiz = await quizResponse.json(); // Contains the quizId
-        const quizId = quiz.id; // Get the quizId from the created quiz
+        const quizResult = await quizResponse.json();
+        const quizId = quizResult.id; // Get the created quiz ID
+        console.log("Quiz created successfully:", quizResult);
   
-        // Post each question and its answers to the respective endpoints
-        for (const q of questions) {
-          // Prepare question data for /questions
+        // POST each question to questions.json
+        const questionsPromises = questions.map(async (q) => {
           const questionData = {
-            quizId, 
-            text: q.question, 
-            type: "multiple choice", 
-            points: 1, 
+            quizId, // Link question to the created quiz
+            text: q.question,
+            type: "multiple choice",
+            points: 1,
           };
   
-          // Post the question to /questions
+          console.log("Posting question data:", questionData);
           const questionResponse = await fetch("http://localhost:3000/questions", {
             method: "POST",
             headers: {
@@ -186,63 +183,63 @@ const InputPages: React.FC = () => {
           });
   
           if (!questionResponse.ok) {
-            throw new Error(`Failed to create question: ${q.question}`);
+            throw new Error("Failed to create question");
           }
   
-          const question = await questionResponse.json();
-          const questionId = question.id; // Get the generated questionId
+          const questionResult = await questionResponse.json();
+          const questionId = questionResult.id;
+          console.log("Question created successfully:", questionResult);
   
-          // Now, post the correct answer to /answers
-          const correctAnswerData = {
-            questionId, 
-            text: q.correctAnswer, 
-            isCorrect: true, 
-          };
-  
-          const correctAnswerResponse = await fetch("http://localhost:3000/answers", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(correctAnswerData),
-          });
-  
-          if (!correctAnswerResponse.ok) {
-            throw new Error(`Failed to create correct answer for question: ${q.question}`);
-          }
-  
-          // Post the wrong answers to /answers
-          for (const wrongAnswer of q.wrongAnswers) {
-            const wrongAnswerData = {
-              questionId, 
-              text: wrongAnswer, 
-              isCorrect: false, 
-            };
-  
-            const wrongAnswerResponse = await fetch("http://localhost:3000/answers", {
+          // POST answers for this question to answers.json
+          const answerPromises = [
+            // Correct answer
+            fetch("http://localhost:3000/answers", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify(wrongAnswerData),
-            });
+              body: JSON.stringify({
+                questionId,
+                text: q.correctAnswer,
+                isCorrect: true,
+              }),
+            }),
+            // Wrong answers
+            ...q.wrongAnswers.map((wrongAnswer) =>
+              fetch("http://localhost:3000/answers", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  questionId,
+                  text: wrongAnswer,
+                  isCorrect: false,
+                }),
+              })
+            ),
+          ];
   
-            if (!wrongAnswerResponse.ok) {
-              throw new Error(`Failed to create wrong answer for question: ${q.question}`);
-            }
-          }
-        }
+          // Wait for all answers to be posted
+          return Promise.all(answerPromises);
+        });
   
-        console.log("Quiz, questions, and answers created successfully");
-        setShowModal(true); 
-        setIsLoading(false); 
+        // Wait for all questions and answers to be posted
+        await Promise.all(questionsPromises);
+  
+        console.log("All questions and answers submitted successfully.");
+  
+        // Show success modal
+        setShowModal(true);
       } catch (error) {
-        console.error("Error creating quiz, questions, or answers:", error);
-        setApiError("Failed to create quiz, questions, or answers. Please try again.");
-        setIsLoading(false); 
+        console.error("Error creating quiz:", error);
+        setApiError("Failed to create quiz. Please try again.");
+      } finally {
+        setIsLoading(false); // Stop loading
       }
     }
   };
+  
   
   
 
@@ -363,7 +360,7 @@ const InputPages: React.FC = () => {
 
           <div className="flex justify-center mt-4 space-x-4">
             <Button text="Add more questions" onClick={addMoreQuestions} />
-            <Button text="Submit Quiz" onClick={handleSubmit} />
+            {isLoading ? <p>Loading...</p> : <Button text="Submit Quiz" onClick={handleSubmit} />}
           </div>
         </div>
 
