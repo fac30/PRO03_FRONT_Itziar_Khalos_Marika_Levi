@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 interface TextInputProps {
   label?: string;
   placeholder?: string;
+  value: string; // Add the value prop here
   onChange: (value: string) => void;
 }
 
@@ -15,8 +16,8 @@ const sanitizeInput = (value: string) => {
     .replace(/'/g, '&#39;');
 };
 
-const TextInput: React.FC<TextInputProps> = ({ label, placeholder, onChange }) => {
-  const [inputValue, setInputValue] = useState<string>('');
+const TextInput: React.FC<TextInputProps> = ({ label, placeholder, value, onChange }) => {
+  const [inputValue, setInputValue] = useState<string>(value); // Initialize state with the value prop
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
