@@ -193,15 +193,13 @@ const InputPages: React.FC = () => {
                 label={`Question ${index + 1}`}
                 placeholder="Type the question here"
                 value={q.question}
-                onChange={(value) => handleInputChange(index, 'question', value)} 
-              />
+                onChange={(value) => handleInputChange(index, 'question', value)} className={''}              />
 
               <TextInput
                 label="Correct Answer"
                 placeholder="Type the correct answer here"
                 value={q.correctAnswer}
-                onChange={(value) => handleInputChange(index, 'correctAnswer', value)} 
-              />
+                onChange={(value) => handleInputChange(index, 'correctAnswer', value)} className={''}              />
 
               {q.wrongAnswers.map((wrongAnswer, i) => (
                 <TextInput
@@ -209,8 +207,7 @@ const InputPages: React.FC = () => {
                   label={`Wrong Answer ${i + 1}`}
                   placeholder="Type the wrong answer here"
                   value={wrongAnswer}
-                  onChange={(value) => handleInputChange(index, `wrong_${i}`, value)} 
-                />
+                  onChange={(value) => handleInputChange(index, `wrong_${i}`, value)} className={''}                />
               ))}
               <hr className="my-4" />
             </div>

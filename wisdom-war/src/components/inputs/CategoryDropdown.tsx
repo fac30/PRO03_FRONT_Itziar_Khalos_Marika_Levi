@@ -3,6 +3,7 @@ import { RiArrowDropDownLine } from 'react-icons/ri';
 
 interface CategoryDropdownProps {
   onChange: (value: string) => void; // Prop to handle category selection
+  className: string;
 }
 
 const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ onChange }) => {

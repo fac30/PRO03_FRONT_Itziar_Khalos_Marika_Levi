@@ -3,6 +3,7 @@ import { RiArrowDropDownLine } from 'react-icons/ri';
 
 interface DifficultyDropdownProps {
   onChange: (value: string) => void; // Prop to handle difficulty selection
+  className: string;
 }
 
 const DifficultyDropdown: React.FC<DifficultyDropdownProps> = ({ onChange }) => {
