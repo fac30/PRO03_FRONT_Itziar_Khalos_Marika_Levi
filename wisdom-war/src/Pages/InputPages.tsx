@@ -105,7 +105,7 @@ const InputPages: React.FC = () => {
         }
 
         // Ensure all wrong answers are filled
-        q.wrongAnswers.forEach((wrongAnswer, wrongIndex) => {
+        q.wrongAnswers.forEach((wrongAnswer) => {
           if (!wrongAnswer) {
             tempErrors[index] = 'All wrong answers must be provided.';
             isValid = false;
