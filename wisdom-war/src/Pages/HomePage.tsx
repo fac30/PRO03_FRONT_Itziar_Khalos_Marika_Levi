@@ -1,29 +1,18 @@
-import React from "react"
-import Button from "../components/buttons/Button"
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import Button from "../components/buttons/Button";
+import Logo from "../components/Logo";
 
-
-const HomePage: React.FC = () => {
-  const navigate = useNavigate();
-
-  const goToExplore = () => {
-    navigate('/explore')
-  }
-  
-  const goToInput = () => {
-    navigate("./InputPages")
-  }
+const HomePage = () => {
   return (
-    <div className="logo p-8">
-      <h1>Wisdom War!</h1>
-      <Button 
-        type ="button"
-        onClick={goToInput} 
-        buttonName="Create new quiz"
-        text="Create new quiz">
-      </Button>
-      <Button onClick={goToExplore} buttonName="Explore quizzes" text="Explore quizzes"></Button>
+    <div className="flex flex-col items-center justify-center h-screen">
+      <Logo />
+      <h1 className="text-center text-2xl font-bold mt-4">Welcome to Wisdom War</h1>
+      <div className="flex space-x-4 mt-8">
+        <Button text="Create a new quiz" path="/create" />
+        <Button text="Explore our quizzes" path="/explore" />
+      </div>
     </div>
   );
-}
-  export default HomePage;
+};
+
+export default HomePage;
