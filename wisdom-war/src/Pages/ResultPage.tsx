@@ -9,7 +9,7 @@ type ResultPageProps = {
 function ResultPage(props: ResultPageProps) {
   return (
     <div className="flex flex-col items-center justify-center">
-      <h1 className="text-center text-2xl font-bold mt-20">Your Quiz Result: How well do you know your cohort?</h1>
+      <h1 className="text-center text-2xl font-bold mt-20">Your Quiz Result: {}</h1>
       
       <div className="container flex justify-center mx-auto">
         {/* Empty container */}
@@ -17,6 +17,10 @@ function ResultPage(props: ResultPageProps) {
       </div>
 
       <p className="text-center text-xl font-normal mt-4">Correct Answers: {props.score} out of {props.totalQuestions}</p>
+      <div className="flex space-x-4 mt-8">
+        <Button text="Home" path="/" />
+        <Button text="Explore more quizzes" path="/explore" />
+      </div>
     </div>
   );
 }

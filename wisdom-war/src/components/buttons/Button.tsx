@@ -8,15 +8,17 @@ interface ButtonProps {
   className?: string;                    // CSS class for custom styles (optional)
   disabled?: boolean;                    // Optional prop to disable the button
   type?: 'button' | 'submit' | 'reset'; // Optional button type
+  
 }
 
 const Button: React.FC<ButtonProps> = ({
   text,
-  onClick, // Keep the onClick prop
-  path,    // Keep the path prop
+  onClick, 
+  path,   
   className = '',
   disabled = false,
   type = 'button',
+  
 }) => {
   const navigate = useNavigate();
 
