@@ -33,8 +33,8 @@ const ResultPage: React.FC<ResultPageProps> = (props) => {
       </p>
       
       <div className="flex space-x-4 mt-8">
-        <Button text="Home" path="/" className="w-1/2"/>
-        <Button text="Explore more quizzes" path="/explore" className="w-1/2"/>
+        <Button text="Home" path="/" />
+        <Button text="Explore more quizzes" path="/explore" />
       </div>
     </div>
   );
