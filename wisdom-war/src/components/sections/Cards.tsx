@@ -24,7 +24,6 @@ function Card(props: CardProps) {
         <Button 
             type ="button"
             onClick={goToQuiz} 
-            buttonName="Play quiz"
             text="Play">
           </Button>
       </div>
