@@ -4,6 +4,7 @@ import HomePage from "./Pages/HomePage";
 import ExplorePage from "./Pages/ExplorePage";
 import QuizQuestionsPage from "./Pages/QuizQuestionsPage";
 import InputPages from "./Pages/InputPages";
+import ResultPage from "./Pages/ResultPage";
 
 const App: React.FC = () => {
   return (
@@ -20,5 +21,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-// to be added once ExplorePage actually works: <Route path="/explore" element={<ExplorePage />} />
