@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { RiArrowDropDownLine } from 'react-icons/ri';
+import React, { useState, useEffect } from "react";
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 interface CategoryDropdownProps {
   onChange: (value: string) => void; // Prop to handle category selection
@@ -16,22 +16,25 @@ interface Quiz {
 
 const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ onChange }) => {
   const [categories, setCategories] = useState<string[]>([]); // State for categories
-  const [selectedCategory, setSelectedCategory] = useState<string>('Select Category');
+  const [selectedCategory, setSelectedCategory] =
+    useState<string>("Select Category");
   const [isOpen, setIsOpen] = useState<boolean>(false); // State to manage dropdown visibility
   const [error, setError] = useState<string | null>(null); // State to manage errors
 
   useEffect(() => {
     // Fetch quizzes from the local server
-    fetch('http://localhost:3000/quizzes')
+    fetch("http://localhost:3000/quizzes")
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Failed to fetch quizzes');
+          throw new Error("Failed to fetch quizzes");
         }
         return response.json() as Promise<Quiz[]>; // Explicitly type the response as an array of Quiz objects
       })
       .then((data: Quiz[]) => {
         // Extract unique categories from the fetched quizzes
-        const uniqueCategories = Array.from(new Set(data.map((quiz) => quiz.category)));
+        const uniqueCategories = Array.from(
+          new Set(data.map((quiz) => quiz.category))
+        );
         setCategories(uniqueCategories); // Set the unique categories
       })
       .catch((error) => {
@@ -55,7 +58,9 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ onChange }) => {
         <button
           onClick={() => setIsOpen(!isOpen)} // Toggle dropdown visibility
           className={`w-full border border-gray-300 bg-[var(--secondary-background)] text-left p-3 rounded-md flex justify-between items-center ${
-            selectedCategory !== 'Select Category' ? 'text-black' : 'text-gray-500'
+            selectedCategory !== "Select Category"
+              ? "text-black"
+              : "text-gray-500"
           }`} // Conditional text color
         >
           <span>{selectedCategory}</span>

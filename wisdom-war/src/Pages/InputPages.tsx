@@ -131,13 +131,13 @@ const InputPages: React.FC = () => {
 
     return isValid;
   };
-  
+
   const handleSubmit = async () => {
     if (validateQuiz()) {
       setShowModal(false);
       setErrorMessage("");
       setIsLoading(true); // Set loading state when submission starts
-  
+
       const quizData = {
         name: quizTitle,
         description: quizDescription,
@@ -145,7 +145,7 @@ const InputPages: React.FC = () => {
         difficulty,
         numberOfQuestions: questions.length, // Total number of questions
       };
-  
+
       try {
         // POST quiz to quizzes.json
         const quizResponse = await fetch("http://localhost:3000/quizzes", {
@@ -155,15 +155,15 @@ const InputPages: React.FC = () => {
           },
           body: JSON.stringify(quizData),
         });
-  
+
         if (!quizResponse.ok) {
           throw new Error("Failed to create quiz");
         }
-  
+
         const quizResult = await quizResponse.json();
         const quizId = quizResult.id; // Get the created quiz ID
         console.log("Quiz created successfully:", quizResult);
-  
+
         // POST each question to questions.json
         const questionsPromises = questions.map(async (q) => {
           const questionData = {
@@ -172,24 +172,27 @@ const InputPages: React.FC = () => {
             type: "multiple choice",
             points: 1,
           };
-  
+
           console.log("Posting question data:", questionData);
-          const questionResponse = await fetch("http://localhost:3000/questions", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(questionData),
-          });
-  
+          const questionResponse = await fetch(
+            "http://localhost:3000/questions",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(questionData),
+            }
+          );
+
           if (!questionResponse.ok) {
             throw new Error("Failed to create question");
           }
-  
+
           const questionResult = await questionResponse.json();
           const questionId = questionResult.id;
           console.log("Question created successfully:", questionResult);
-  
+
           // POST answers for this question to answers.json
           const answerPromises = [
             // Correct answer
@@ -219,16 +222,16 @@ const InputPages: React.FC = () => {
               })
             ),
           ];
-  
+
           // Wait for all answers to be posted
           return Promise.all(answerPromises);
         });
-  
+
         // Wait for all questions and answers to be posted
         await Promise.all(questionsPromises);
-  
+
         console.log("All questions and answers submitted successfully.");
-  
+
         // Show success modal
         setShowModal(true);
       } catch (error) {
@@ -239,9 +242,6 @@ const InputPages: React.FC = () => {
       }
     }
   };
-  
-  
-  
 
   const navigateHome = () => {
     navigate("/");
@@ -360,7 +360,11 @@ const InputPages: React.FC = () => {
 
           <div className="flex justify-center mt-4 space-x-4">
             <Button text="Add more questions" onClick={addMoreQuestions} />
-            {isLoading ? <p>Loading...</p> : <Button text="Submit Quiz" onClick={handleSubmit} />}
+            {isLoading ? (
+              <p>Loading...</p>
+            ) : (
+              <Button text="Submit Quiz" onClick={handleSubmit} />
+            )}
           </div>
         </div>
 
@@ -378,4 +382,3 @@ const InputPages: React.FC = () => {
 };
 
 export default InputPages;
-
