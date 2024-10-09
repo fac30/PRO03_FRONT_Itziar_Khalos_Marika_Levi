@@ -20,12 +20,14 @@ function Card(props: CardProps) {
       <p className="level text-sm md:text-base lg:text-lg font-semibold p-2 text-center">
         Level: {props.level}
       </p>
-      <Button
-        text="Play"
-        path={`/quiz/${props.quizId}`}
-        quizName={props.quizName} 
-        className="mt-4 w-full md:w-auto"
-      />
+      <div className="flex justify-center mt-4 w-full">
+        <Button
+          text="Play"
+          path={`/quiz/${props.quizId}`}
+          quizName={props.quizName}
+          className="w-32"
+        />
+      </div>
     </div>
   );
 }
