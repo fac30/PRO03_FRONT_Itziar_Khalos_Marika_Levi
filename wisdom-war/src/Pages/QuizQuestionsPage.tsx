@@ -76,7 +76,7 @@ const QuizQuestionsPage = () => {
 
       {questions.length > 0 && (
         <div className="flex justify-center mt-4 space-x-4">
-          <Button text="Submit Answers" onClick={submitQuiz} path="/result" />
+          <Button text="Submit Answers" onClick={submitQuiz} path="/result"/>
         </div>
       )}
     </div>
