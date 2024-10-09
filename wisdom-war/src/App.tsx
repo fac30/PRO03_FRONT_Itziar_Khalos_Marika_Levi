@@ -14,7 +14,7 @@ const App: React.FC = () => {
         <Route path="/create" element={<InputPages />} />
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/quiz/:quizId" element={<QuizQuestionsPage />} />
-        <Route path="/result" element={<ResultPage />} />
+        <Route path="/results/:id" element={<ResultPage />} />
       </Routes>
     </Router>
   );
