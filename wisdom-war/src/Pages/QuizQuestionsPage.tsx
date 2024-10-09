@@ -30,15 +30,26 @@ const QuizQuestionsPage = () => {
         throw new Error("Failed to submit quiz results");
       }
   
-      const resultData = await quizResults.json();
+      const resultData = await quizResults.json(); // Retrieve the response containing the score
+      const score = resultData.score; // Assuming the response structure has a `score` field
+  
+      // Store the score, quiz title, and total questions in local storage
+      localStorage.setItem("score", score.toString());
+      localStorage.setItem("quizTitle", quizTitle);
+      localStorage.setItem("totalQuestions", questions.length.toString()); // Store total questions
+  
       console.log("Quiz submitted successfully:", resultData);
+  
+      // Optionally, redirect to the result page
+      window.location.href = "/result"; // This assumes that the result page is located at '/result'
+  
     } catch (error) {
       console.error("Error submitting quiz:", error);
       setError("An error occurred while submitting the quiz. Please try again.");
     }
   };
   
-
+  
   const handleAnswerChange = (questionId: number, answerId: string) => {
     setSelectedAnswers((prev) => ({
       ...prev,
@@ -46,7 +57,6 @@ const QuizQuestionsPage = () => {
     }));
   };
 
-  
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
@@ -89,9 +99,11 @@ const QuizQuestionsPage = () => {
 
       {questions.length > 0 && (
         <div className="flex justify-center mt-4 space-x-4">
-          <Button text="Submit Answers" onClick={submitQuiz} path="/result"/>
+          <Button text="Submit Answers" onClick={submitQuiz} />
         </div>
       )}
+
+      {error && <p className="text-red-500">{error}</p>} {/* Display error messages if any */}
     </div>
   );
 };
