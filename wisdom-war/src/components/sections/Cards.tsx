@@ -19,7 +19,7 @@ function Card(props: CardProps) {
         <p className="level text-medium font-semibold p-2">
           Level: {props.level}
         </p>
-        <Button text="Play" path={`/quiz/${props.quizId}`} className=""></Button>
+        <Button text="Play" path={`/quiz/${props.quizId}`} className="flex justify-center"></Button>
       </div>
     </>
   );
