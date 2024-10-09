@@ -8,7 +8,7 @@ interface ButtonProps {
   className?: string;                    
   disabled?: boolean;                    
   type?: 'button' | 'submit' | 'reset'; 
-  quizName?: string;                     
+  quizName?: string;                   
 }
 
 const Button: React.FC<ButtonProps> = ({
