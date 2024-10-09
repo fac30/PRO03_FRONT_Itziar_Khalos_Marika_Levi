@@ -1,7 +1,4 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import Navbar from "../../components/NavBar";
 import { QuizQuestion } from "../../Pages/types";
 
 interface QuizAnswer {
@@ -21,14 +18,14 @@ interface QuestionProps {
   question: QuizQuestion;
   index: number;
   totalQuestions: number;
-  onClick: (q: number, a: number) => void;
+  onClick: (q: number, a: string) => void; // Updated to accept string for answerId
 }
 
 const QuestionComponent = (props: QuestionProps) => {
   const { question, index, totalQuestions, onClick } = props;
 
   return (
-    <div className="w-full max-w-3xl mx-auto mt-8 p-4 bg-white rounded-lg shadow-lg">
+    <div className="w-full max-w-3xl mx-auto mt-8 p-4 bg-white rounded-lg shadow-sm">
       <div className="flex justify-between items-center mb-6">
         <span className="bg-gray-200 text-sm px-4 py-2 rounded-md">
           {index + 1}/{totalQuestions}
@@ -45,8 +42,7 @@ const QuestionComponent = (props: QuestionProps) => {
                     type="radio"
                     name={`question-${question.id}`}
                     value={answer.text}
-                    // checked={selectedAnswers[question.id] === answer.text}
-                    onChange={() => onClick(question.id, answer.id)}
+                    onChange={() => onClick(question.id, answer.id.toString())} // Convert answerId to string
                     className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                   />
                   <span className="text-gray-800">{answer.text}</span>
