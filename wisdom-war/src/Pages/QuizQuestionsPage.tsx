@@ -17,14 +17,27 @@ const QuizQuestionsPage = () => {
   }>({});
 
   const submitQuiz = async () => {
-    const quizResults = await fetch("http://localhost:3000/results", {
-      method: "POST",
-      body: JSON.stringify({ quizId: quizId, results: selectedAnswers }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      const quizResults = await fetch("http://localhost:3000/results", {
+        method: "POST",
+        body: JSON.stringify({ quizId: quizId, results: selectedAnswers }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      if (!quizResults.ok) {
+        throw new Error("Failed to submit quiz results");
+      }
+  
+      const resultData = await quizResults.json();
+      console.log("Quiz submitted successfully:", resultData);
+    } catch (error) {
+      console.error("Error submitting quiz:", error);
+      setError("An error occurred while submitting the quiz. Please try again.");
+    }
   };
+  
 
   const handleAnswerChange = (questionId: number, answerId: string) => {
     setSelectedAnswers((prev) => ({
