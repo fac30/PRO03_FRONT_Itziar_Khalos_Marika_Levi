@@ -8,6 +8,7 @@ interface ResultPageProps {
 
 const ResultPage: React.FC<ResultPageProps> = (props) => {
   const [quizName, setQuizName] = useState<string | null>(null);
+  const[gifUrl, setGifUrl] = useState<string | null>(null)
 
   // Retrieve quizName from localStorage when the component mounts
   useEffect(() => {
@@ -15,7 +16,18 @@ const ResultPage: React.FC<ResultPageProps> = (props) => {
     if (storedQuizName) {
       setQuizName(storedQuizName);
     }
-  }, []);
+
+    const fectGif = async () => {
+      try {
+        const response = await fetch (`/api/giphy/get-meme?isCorrect=${isCorrect}`);
+        const data = await response.json();
+        setGifUrl(data.memeUrl);
+      } catch (error) {
+        console.log("Error fecting GIF:", error)
+      }
+    };
+    fectGif();
+    }, []);
 
   return (
     <div className="flex flex-col items-center justify-center">
