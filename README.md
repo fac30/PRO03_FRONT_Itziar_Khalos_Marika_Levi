@@ -50,7 +50,7 @@ To run the Wisdom War Quiz Application locally, follow these steps:
 3. Navigate into the project directory:
 
     ```
-    cd pro03_front_itziar_khalos_marika_levi
+    cd pro03_front_itziar_khalos_marika_levi/
     ```
 
 ### Install Dependencies
