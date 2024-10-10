@@ -79,11 +79,14 @@ const ResultPage: React.FC<ResultPageProps> = () => {
 
       <div className="container flex justify-center mx-auto">
         {gifUrl ? (
-          <img
-            src={gifUrl}
-            alt="Result Gif"
-            className="w-64 h-64 my-10"
-          />
+          <div className="relative w-full max-w-2xl px-4 mt-10">
+            {/* Responsive GIF display */}
+            <img
+              src={gifUrl}
+              alt="Result Gif"
+              className="w-full h-auto rounded-md shadow-md object-contain"
+            />
+          </div>
         ) : (
           <div className="empty-container bg-gray-200 border border-black w-64 h-64 my-10"></div>
         )}
