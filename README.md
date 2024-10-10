@@ -1,157 +1,128 @@
-# PRO03_FRONT_Itziar_Khalos_Marika_Levi
+# Wisdom War Quiz Application
 
+This document provides an overview of the **Wisdom War Quiz Application**, its input components, and how to use the project. The application allows users to create and play quizzes, view results (with added meme fun). This project is currently a work in progress.
 
-## Wisdom War Input Components
-This document provides an overview of the input components developed for the Wisdom War quiz application. These components are designed to enhance the user experience by allowing for intuitive input handling in the quiz creation process.
+## What the Project Does
 
-### Overview
-The application includes four key input components:
+The Wisdom War Quiz Application offers users the ability to:
+- **Create Quizzes**: Design your own quizzes by selecting categories, difficulty levels, and adding custom questions.
+- **Explore Quizzes**: Browse through a diverse range of quizzes created by others.
+- **Play Quizzes**: Take quizzes created by other users.
+- **View Results**: After completing a quiz, view a summary of your results along with a meme fetched from the Giphy API, based on your score.
 
-- DifficultyDropdown: A dropdown menu for selecting the difficulty level of the quiz.
-- CategoryDropdown: A dropdown menu for selecting the quiz category.
-- TextInput: A text input component for capturing short text entries.
-- TextArea: A text area component for entering longer descriptions.
-- Each component is built using React, TypeScript, and Tailwind CSS for styling.
+The project is built using **React**, **TypeScript**, and **Tailwind CSS** for a responsive and user-friendly experience.
 
-1. DifficultyDropdown
-#### Component: DifficultyDropdown.tsx
-- Description: This dropdown allows users to select a difficulty level for the quiz.
-- Options: Easy, Medium, Hard.
-- Placeholder: Displays "Select Difficulty" before any selection is made.
-- Selected Item: Once an option is selected, the text color changes to black to improve contrast against the light background.
-- Responsive: The component adjusts to take the full width on mobile devices and centers on larger screens.
+## Key Features
 
-Usage Example:
-```tsx
-import DifficultyDropdown from './components/DifficultyDropdown';
+- **Input Components**: 
+  - Dropdowns for selecting quiz difficulty and category.
+  - Text inputs for quiz title and questions.
+  - Text area for quiz descriptions.
+  
+- **Quiz Creation**: 
+  - Add custom questions with correct and wrong answer options.
+  - Validate quiz details, ensuring all fields are properly filled.
 
-const App = () => {
-  return (
-    <div>
-      <DifficultyDropdown />
-    </div>
-  );
-};
+- **Responsive Design**: 
+  - Works across various device sizes, from mobile to desktop.
+
+- **Result Page**: 
+  - Displays the quiz score after completion.
+  - Fetches and displays a fun meme from the Giphy API based on the score to add humor and excitement to the result viewing experience.
+
+## Installation
+
+To run the Wisdom War Quiz Application locally, follow these steps:
+
+### Prerequisites
+
+- Make sure the backend server is running locally. The frontend application relies on this for data.
+
+### Clone the Repository
+
+1. Open your terminal or command prompt.
+2. Clone the repository using the following command:
+
+    ```
+    git clone https://github.com/fac30/PRO03_FRONT_Itziar_Khalos_Marika_Levi.git
+    ```
+
+3. Navigate into the project directory:
+
+    ```
+    cd pro03_front_itziar_khalos_marika_levi/
+    ```
+
+### Install Dependencies
+
+Install all necessary dependencies with:
+
 ```
-2. CategoryDropdown
-#### Component: CategoryDropdown.tsx
-- Description: This dropdown allows users to select the category of the quiz.
-- Options: FAC, Music, Movies, Art.
-- Placeholder: Displays "Select Category" before any selection is made.
-- Selected Item: Changes to black font color once an option is selected.
-- Responsive: Similar layout as the DifficultyDropdown, ensuring usability across devices.
-
-Usage Example:
-```tsx
-import CategoryDropdown from './components/CategoryDropdown';
-
-const App = () => {
-  return (
-    <div>
-      <CategoryDropdown />
-    </div>
-  );
-};
+npm install
 ```
 
-3. TextInput
-#### Component: TextInput.tsx
-- Description: A versatile text input component that can be reused for various purposes in the application.
-- Label: The label is passed as a prop, allowing customization based on its usage context.
-- Placeholder: The placeholder text is also passed as a prop for dynamic content.
-- Text Color: Changes to black once the user starts typing, improving readability.
-- Sanitization: Input is sanitized to prevent malicious content, specifically to filter out < symbols.
+### Running the Application
 
-Usage Example:
-```tsx
-import TextInput from './components/TextInput';
+Start the development server:
 
-const App = () => {
-  return (
-    <div>
-      <TextInput label="Quiz Title" placeholder="Enter quiz title" />
-    </div>
-  );
-};
 ```
-4. TextArea
-#### Component: TextArea.tsx
-- Description: A text area component designed for entering longer descriptions or content.
-- Label: Similar to TextInput, the label is passed as a prop.
-- Placeholder: The placeholder can be customized based on context.
-- Text Color: Text changes to black once the user begins typing.
-- Sanitization: Prevents malicious inputs, specifically filtering out < symbols.
-
-Usage Example:
-```tsx
-import TextArea from './components/TextArea';
-
-const App = () => {
-  return (
-    <div>
-      <TextArea label="Add a brief description" placeholder="Enter a description here" />
-    </div>
-  );
-};
+npm start
 ```
-#### Styling
-All components utilize Tailwind CSS for styling, ensuring a responsive and consistent design throughout the application. The default styles are defined in index.css, which includes global styles and variables.
 
-#### Conclusion
-These input components are designed to be reusable, responsive, and user-friendly, providing a solid foundation for the quiz creation process in the Wisdom War application. Feel free to customize and extend these components as needed for your project.
+Open your browser and go to:
 
-# InputPages.tsx Component
+```
+http://localhost:5173
+```
 
-The `InputPages.tsx` component is designed for creating quizzes by allowing users to input various details, including the quiz title, description, category, difficulty, and questions with answers. This document outlines the features and functionalities available in the component.
+### Backend Integration
 
-## Features
+Ensure that the backend server is running on:
 
-### 1. **Quiz Title Input**
-   - A text input field where users can enter the title of the quiz.
-   - Validates that the title is not empty.
-   - Displays an error message in red if the title is missing.
+```
+http://localhost:3000
+```
 
-### 2. **Quiz Description Input**
-   - A text area for entering a brief description of the quiz.
-   - Validates that the description is not empty.
-   - Displays an error message in red if the description is missing.
+This will enable the frontend to make API calls for quiz data, answer submissions, and result retrieval.
 
-### 3. **Category Dropdown**
-   - A dropdown menu for selecting the quiz category.
-   - Validates that a category is selected.
-   - Displays an error message in red if no category is selected.
+## Example Usage
 
-### 4. **Difficulty Dropdown**
-   - A dropdown menu for selecting the quiz difficulty level.
-   - Validates that a difficulty level is selected.
-   - Displays an error message in red if no difficulty is selected.
+1. **Create a Quiz**: 
+   - Navigate to the "Create Quiz" page.
+   - Enter a title, description, select a category, difficulty, and add your custom questions.
+   
+2. **Play a Quiz**: 
+   - Choose a quiz from the "Explore Quizzes" section.
+   - Complete the quiz and view your results.
 
-### 5. **Questions and Answers Section**
-   - Users can add a minimum of 5 questions.
-   - Each question includes:
-     - A text input for the question itself.
-     - A text input for the correct answer.
-     - Three text inputs for wrong answers.
-   - Validates that:
-     - Each question must not be empty.
-     - All questions must be unique.
-     - The correct answer must be different from the wrong answers.
-     - All wrong answers must be filled and unique.
-   - Displays specific error messages above each question block if validation fails.
+3. **View Results**: 
+   - After playing a quiz, you can view your score and enjoy a meme fetched from Giphy, based on your performance.
 
-### 6. **Error Messages**
-   - Error messages are displayed in red next to the fields that have issues.
-   - A summary error message appears above the submit buttons if any validation errors exist, prompting the user to fix the errors.
+## Contributions
 
-### 7. **Buttons**
-   - **Add More Questions**: Allows users to add additional question blocks dynamically.
-   - **Submit Quiz**: Validates the quiz inputs and displays a modal if the validation passes.
-   - **Navigation Buttons in Modal**:
-     - **Back to Home**: Navigates to the homepage.
-     - **Explore Quizzes**: Navigates to the explore quizzes page.
+We welcome contributions! Whether it's fixing bugs, adding new features, or suggesting improvements, feel free to submit a pull request or open an issue.
 
-### 8. **Modal**
-   - Displays a thank-you message upon successful quiz creation.
-   - Contains navigation options to return to the homepage or explore quizzes.
+### Steps to Contribute:
 
+1. **Fork the repository**.
+2. **Create a feature branch**:
+
+    ```
+    git checkout -b feature/YourFeatureName
+    ```
+
+3. **Commit your changes**:
+
+    ```
+    git commit -m "Add feature"
+    ```
+
+4. **Push your branch**:
+
+    ```
+    git push origin YourFeatureName
+    ```
+
+5. **Submit a pull request** for review.
+```
 
