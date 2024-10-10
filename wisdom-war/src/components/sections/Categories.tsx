@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import { useState, useEffect } from "react";
 import Card from "./Cards";
 
@@ -30,13 +30,16 @@ function Categories() {
       });
   }, []);
 
-  const listOfQuizzes: Record<string, Quiz[]> = quizzes.reduce((acc: Record<string, Quiz[]>, quiz) => {
-    if (!acc[quiz.category]) {
-      acc[quiz.category] = [];
-    }
-    acc[quiz.category].push(quiz);
-    return acc;
-  }, {});
+  const listOfQuizzes: Record<string, Quiz[]> = quizzes.reduce(
+    (acc: Record<string, Quiz[]>, quiz) => {
+      if (!acc[quiz.category]) {
+        acc[quiz.category] = [];
+      }
+      acc[quiz.category].push(quiz);
+      return acc;
+    },
+    {}
+  );
 
   if (error) return <p>{error}</p>;
 
@@ -49,6 +52,7 @@ function Categories() {
             {listOfQuizzes[category].map((quiz) => (
               <Card
                 key={quiz.id}
+                quizId={quiz.id}
                 quizName={quiz.name}
                 description={quiz.description}
                 level={quiz.difficulty}

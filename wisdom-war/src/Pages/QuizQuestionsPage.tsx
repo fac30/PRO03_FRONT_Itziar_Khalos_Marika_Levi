@@ -1,35 +1,98 @@
-import React from "react"
-import Navbar from "../components/NavBar";
+import React, { useState, useEffect } from "react";
+import { redirect, useNavigate, useParams } from "react-router-dom";
+import { QuizQuestion } from "./types";
 import QuestionComponent from "../components/quiz/Question";
 import Button from "../components/buttons/Button";
+import Navbar from "../components/NavBar";
 
 const QuizQuestionsPage = () => {
+  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
+  const [quizTitle, setQuizTitle] = useState<string>("Loading...");
+  const [error, setError] = useState<string | null>(null);
+
+  const { quizId } = useParams<{ quizId: string }>();
+  const navigate = useNavigate();
+
+  const [selectedAnswers, setSelectedAnswers] = useState<{
+    [key: number]: number;
+  }>({});
+
+  const submitQuiz = async () => {
+    const quizResult = await fetch("http://localhost:3000/results", {
+      method: "POST",
+      body: JSON.stringify({
+        quizId: quizId,
+        results: selectedAnswers,
+        totalQuestions: questions.length,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const jsonData = await quizResult.json();
+    console.log(jsonData);
+    navigate(`/results/${jsonData.id}`);
+  };
+
+  const handleAnswerChange = (questionId: number, answerId: number) => {
+    setSelectedAnswers((prev) => ({
+      ...prev,
+      [questionId]: answerId,
+    }));
+  };
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const questionsResponse = await fetch(
+          `http://localhost:3000/questions?quizId=${quizId}`
+        );
+        if (!questionsResponse.ok)
+          throw new Error("Failed to fetch questions.");
+        const questionsData = await questionsResponse.json();
+        setQuestions(questionsData);
+      } catch (error) {
+        setError("Failed to fetch questions or answers.");
+      }
+    };
+
+    fetchQuestions();
+
+    const storedQuizTitle = localStorage.getItem("quizTitle");
+    if (storedQuizTitle) {
+      setQuizTitle(storedQuizTitle);
+    }
+  }, [quizId]);
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Navbar */}
-      <Navbar title="Quiz" />
+      <Navbar title={quizTitle} />
 
-      {/* Content */}
-      <div className="w-full max-w-3xl mx-auto mt-8 p-4 bg-white rounded-lg shadow-lg">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">How well do you know your cohort?</h1>
-          <span className="bg-gray-200 text-sm px-4 py-2 rounded-md">
-            1/15 {/* You can dynamically update the question number */}
-          </span>
-        </div>
+      {questions.length > 0 ? (
+        questions.map((question, i) => (
+          <QuestionComponent
+            key={question.id}
+            question={question}
+            index={i}
+            totalQuestions={questions.length}
+            onClick={handleAnswerChange}
+          />
+        ))
+      ) : (
+        <div>There are no questions</div>
+      )}
 
-        {/* Display all questions */}
-        <div className="w-full">
-          <QuestionComponent />
+      {questions.length > 0 && (
+        <div className="flex justify-center mt-4 space-x-4">
+          <Button
+            text="Submit Answers"
+            onClick={submitQuiz}
+            className="mb-6 mt-2"
+          />
         </div>
-        {/* <Button --> for submit but has to be linked to the quiz logic where Has to check how many answers are Correct for then gpo to the result page and provide the score */}
-      </div>
+      )}
     </div>
   );
 };
 
 export default QuizQuestionsPage;
-
-
-
-
