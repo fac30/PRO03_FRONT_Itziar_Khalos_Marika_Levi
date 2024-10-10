@@ -1,3 +1,4 @@
+// src/Pages/ResultPage.tsx
 import React, { useEffect, useState } from "react";
 import Button from "../components/buttons/Button";
 import { useParams } from "react-router-dom";
@@ -10,6 +11,7 @@ const ResultPage: React.FC<ResultPageProps> = () => {
   const [gifUrl, setGifUrl] = useState<string | null>(null);
   const { id } = useParams<{ id: string }>();
   const [quizName, setQuizName] = useState<string | null>(null);
+  const [playlistUrl, setPlaylistUrl] = useState<string | null>(null);
 
   // Fetch quiz results based on the ID
   useEffect(() => {
@@ -67,12 +69,38 @@ const ResultPage: React.FC<ResultPageProps> = () => {
     }
   }, [results]);
 
+  
+  const fetchSpotifyPlaylist = async (): Promise<void> => {
+    try {
+      const response = await fetch("http://localhost:3000/api/spotify/top-tracks");
+      
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        setPlaylistUrl(data.playlistUrl); 
+      } else {
+        setError("Failed to fetch the Spotify playlist.");
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+      setError(`An error occurred: ${error.message}`);
+    }
+  };
+
+  useEffect(() => {
+    fetchSpotifyPlaylist(); 
+  }, []);
+
   if (!results) {
     return <h1>Loading...</h1>;
   }
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center p-4">
       <h1 className="text-center text-2xl font-bold mt-20">
         Your Quiz Result: {quizName}
       </h1>
@@ -105,6 +133,20 @@ const ResultPage: React.FC<ResultPageProps> = () => {
         <p className="text-center text-red-500 mt-4">
           {error}
         </p>
+      )}
+
+      {/* Spotify player will be rendered here */}
+      {playlistUrl && (
+        <div className="mt-6">
+          <iframe 
+            src={`https://open.spotify.com/embed/playlist/${playlistUrl.split('/').pop()}`} 
+            width="300" 
+            height="80" 
+            frameBorder="0" 
+            allow="encrypted-media" 
+            title="Spotify Playlist"
+          />
+        </div>
       )}
     </div>
   );
