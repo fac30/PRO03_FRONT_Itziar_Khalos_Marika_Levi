@@ -1,56 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { redirect, useNavigate, useParams } from "react-router-dom";
 import { QuizQuestion } from "./types";
 import QuestionComponent from "../components/quiz/Question";
 import Button from "../components/buttons/Button";
-import Navbar from "../components/NavBar"; 
+import Navbar from "../components/NavBar";
 
 const QuizQuestionsPage = () => {
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
-  const [quizTitle, setQuizTitle] = useState<string>("Loading..."); 
+  const [quizTitle, setQuizTitle] = useState<string>("Loading...");
   const [error, setError] = useState<string | null>(null);
 
-  const { quizId } = useParams<{ quizId: string }>(); 
+  const { quizId } = useParams<{ quizId: string }>();
+  const navigate = useNavigate();
 
   const [selectedAnswers, setSelectedAnswers] = useState<{
-    [key: number]: string;
+    [key: number]: number;
   }>({});
 
   const submitQuiz = async () => {
-    try {
-      const quizResults = await fetch("http://localhost:3000/results", {
-        method: "POST",
-        body: JSON.stringify({ quizId: quizId, results: selectedAnswers }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-  
-      if (!quizResults.ok) {
-        throw new Error("Failed to submit quiz results");
-      }
-  
-      const resultData = await quizResults.json(); // Retrieve the response containing the score
-      const score = resultData.score; // Assuming the response structure has a `score` field
-  
-      // Store the score, quiz title, and total questions in local storage
-      localStorage.setItem("score", score.toString());
-      localStorage.setItem("quizTitle", quizTitle);
-      localStorage.setItem("totalQuestions", questions.length.toString()); // Store total questions
-  
-      console.log("Quiz submitted successfully:", resultData);
-  
-      // Optionally, redirect to the result page
-      window.location.href = "/result"; // This assumes that the result page is located at '/result'
-  
-    } catch (error) {
-      console.error("Error submitting quiz:", error);
-      setError("An error occurred while submitting the quiz. Please try again.");
-    }
+    const quizResult = await fetch("http://localhost:3000/results", {
+      method: "POST",
+      body: JSON.stringify({
+        quizId: quizId,
+        results: selectedAnswers,
+        totalQuestions: questions.length,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const jsonData = await quizResult.json();
+    console.log(jsonData);
+    navigate(`/results/${jsonData.id}`);
   };
-  
-  
-  const handleAnswerChange = (questionId: number, answerId: string) => {
+
+  const handleAnswerChange = (questionId: number, answerId: number) => {
     setSelectedAnswers((prev) => ({
       ...prev,
       [questionId]: answerId,
@@ -63,7 +47,8 @@ const QuizQuestionsPage = () => {
         const questionsResponse = await fetch(
           `http://localhost:3000/questions?quizId=${quizId}`
         );
-        if (!questionsResponse.ok) throw new Error("Failed to fetch questions.");
+        if (!questionsResponse.ok)
+          throw new Error("Failed to fetch questions.");
         const questionsData = await questionsResponse.json();
         setQuestions(questionsData);
       } catch (error) {
@@ -71,17 +56,17 @@ const QuizQuestionsPage = () => {
       }
     };
 
-    fetchQuestions(); 
+    fetchQuestions();
 
     const storedQuizTitle = localStorage.getItem("quizTitle");
     if (storedQuizTitle) {
       setQuizTitle(storedQuizTitle);
     }
-  }, [quizId]); 
+  }, [quizId]);
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      <Navbar title={quizTitle} /> {/* Pass the quiz title to the Navbar */}
+      <Navbar title={quizTitle} />
 
       {questions.length > 0 ? (
         questions.map((question, i) => (
@@ -99,7 +84,11 @@ const QuizQuestionsPage = () => {
 
       {questions.length > 0 && (
         <div className="flex justify-center mt-4 space-x-4">
-          <Button text="Submit Answers" onClick={submitQuiz} />
+          <Button
+            text="Submit Answers"
+            onClick={submitQuiz}
+            className="mb-6 mt-2"
+          />
         </div>
       )}
 
