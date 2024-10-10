@@ -10,13 +10,17 @@ const HomePage = () => {
   const fetchSpotifyPlaylist = async (): Promise<void> => {
     try {
       const response = await fetch("http://localhost:3000/api/spotify/top-tracks");
+      
+      // Check if the response is okay
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+
       const data = await response.json();
       console.log('Received data from backend:', data); // Log received data
+      
       if (data.success) {
-        setPlaylistUrl(data.playlistUrl);
+        setPlaylistUrl(data.playlistUrl); // Set playlist URL from response
       } else {
         setError("Failed to fetch the Spotify playlist.");
       }
@@ -39,9 +43,17 @@ const HomePage = () => {
       </div>
       {error && <p className="text-red-500 mt-4">{error}</p>}
       {playlistUrl && (
-        <a href={playlistUrl} target="_blank" rel="noopener noreferrer" className="mt-4">
-          Listen to the Top Tracks on Spotify
-        </a>
+        <div className="mt-4">
+          {/* Embed a smaller Spotify player */}
+          <iframe 
+            src={`https://open.spotify.com/embed/playlist/${playlistUrl.split('/').pop()}`} 
+            width="300" // Adjust width to 300px
+            height="80" // Adjust height to 80px for a smaller player
+            frameBorder="0" 
+            allow="encrypted-media" 
+            title="Spotify Playlist"
+          />
+        </div>
       )}
     </div>
   );
